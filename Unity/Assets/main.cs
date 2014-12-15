@@ -9,6 +9,9 @@ public class main : MonoBehaviour {
 
         board = (BoardController)GameObject.Find("background").GetComponent<MonoBehaviour>();
         board.AddHex(0, 0, 0);
+        board.AddHex(1, 0, 0);
+        board.AddHex(1, 1, 0);
+        board.AddHex(2, 0, 0);
 
 	}
 
