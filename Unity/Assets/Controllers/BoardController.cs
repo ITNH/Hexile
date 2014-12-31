@@ -16,16 +16,16 @@ public class BoardController : MonoBehaviour {
         if (grid[xpos, ypos] == null)
         {
 
-            if (xpos % 2 == 0)
+            if (xpos % 2 == 0) // if xpos is even
             {
                 grid[xpos, ypos] = Instantiate( hexagons[color], new
                     Vector3( xcoords[xpos], ycoords[ypos] ),
                     Quaternion.identity ) as GameObject;
             }
-            else
+            else // if xpos is odd
             {
                 grid[xpos, ypos] = Instantiate( hexagons[color], new
-                    Vector3( xcoords[xpos], ycoords[ypos] - 8 ),
+                    Vector3( xcoords[xpos], ycoords[ypos] - 8 ), // offset for odd hexes
                     Quaternion.identity ) as GameObject;
             }
 
