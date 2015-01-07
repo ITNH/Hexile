@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameControllerTest : MonoBehaviour {
+public class GameController : MonoBehaviour {
 
     private BoardController board;
-    
-	void Start ()
+
+    void Start()
     {
 
         board = (BoardController)GameObject.Find("Board").GetComponent<MonoBehaviour>();
 
-	}
+    }
 
     void Update()
     {
 
-        
+
 
     }
-
 }
