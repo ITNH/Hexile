@@ -48,9 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BoardController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
-     <Compile Include="Assets\Scripts\GameControllerTest.cs" />
-     <Compile Include="Assets\Scripts\ShapeController.cs" />
-     <Compile Include="Assets\Scripts\Shapes.cs" />
+     <Compile Include="Assets\Scripts\HexController.cs" />
+     <Compile Include="Assets\Scripts\HexelController.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>
