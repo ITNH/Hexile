@@ -9,8 +9,10 @@ public class HexelController : MonoBehaviour
 
     public int color;
     public int speed;
+    public int xoffset;
+    public int yoffset;
 
-    private int counter;
+    public int counter;
 
     private BoardController board;
 
@@ -24,7 +26,7 @@ public class HexelController : MonoBehaviour
         for (int i = 0; i < 8; i = i + 2)
         {
 
-            board.AddHex(Rotate0[1], Rotate0[2], color);
+            board.AddHex(Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset, color);
 
         }
 
@@ -40,10 +42,16 @@ public class HexelController : MonoBehaviour
 
             counter = 0;
 
-            for (int i = 0; i < 8; i = i + 1)
+            //TODO: Gravity checks
+
+            if (yoffset > 0)
+                yoffset--;
+
+            for (int i = 0; i < 8; i = i + 2)
             {
 
-                
+                board.MoveHex(Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset + 1,
+                    Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset);
 
             }
 
