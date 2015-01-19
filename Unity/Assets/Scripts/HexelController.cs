@@ -5,28 +5,29 @@ public class HexelController : MonoBehaviour
 {
 
     public int[] Rotate0;
+    public int[] Rotate60;
+    public int[] Rotate120;
     public int[] Rotate180;
+    public int[] Rotate240;
+    public int[] Rotate300;
 
     public int color;
-    public int speed;
     public int xoffset;
     public int yoffset;
 
     public int counter;
-
-    private BoardController board;
+    private int rotation;
 
     void Start()
     {
 
-        board = (BoardController)GameObject.Find("Board").GetComponent<MonoBehaviour>();
-
         counter = 0;
+        rotation = 0;
 
         for (int i = 0; i < 8; i = i + 2)
         {
 
-            board.AddHex(Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset, color);
+            GameController.board.AddHex(Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset, color);
 
         }
 
@@ -37,7 +38,7 @@ public class HexelController : MonoBehaviour
 
         counter++;
 
-        if (counter == speed)
+        if (counter >= GameController.speed)
         {
 
             counter = 0;
@@ -50,7 +51,39 @@ public class HexelController : MonoBehaviour
             for (int i = 0; i < 8; i = i + 2)
             {
 
-                board.MoveHex(Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset + 1,
+                GameController.board.MoveHex(Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset + 1,
+                    Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset);
+
+            }
+
+        }
+
+        if (Input.GetButtonDown("Left") && !Input.GetButtonDown("Right"))
+        {
+
+            if (xoffset > 0)
+                xoffset--;
+
+            for (int i = 0; i < 8; i = i + 2)
+            {
+
+                GameController.board.MoveHex(Rotate0[i] + xoffset + 1, Rotate0[i + 1] + yoffset,
+                    Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset);
+
+            }
+
+        }
+
+        if (Input.GetButtonDown("Right") && !Input.GetButtonDown("Left"))
+        {
+
+            if (xoffset < 15)
+                xoffset++;
+
+            for (int i = 0; i < 8; i = i + 2)
+            {
+
+                GameController.board.MoveHex(Rotate0[i] + xoffset - 1, Rotate0[i + 1] + yoffset,
                     Rotate0[i] + xoffset, Rotate0[i + 1] + yoffset);
 
             }
