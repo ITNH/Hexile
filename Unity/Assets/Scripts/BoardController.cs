@@ -4,9 +4,6 @@ using System.Collections;
 public class BoardController : MonoBehaviour {
 
     public GameObject[] hexagons;
-
-    private static int[] xcoords = new int[] {1, 15, 29, 43, 57, 71, 85, 99, 113, 127, 141, 155, 169, 183, 197};
-    private static int[] ycoords = new int[] {9, 25, 41, 57, 73, 89, 105, 121, 137, 153, 169, 185, 201, 217, 233, 300, 300, 300, 300, 300};
     
     private static GameObject[,] grid = new GameObject[15, 20];
 
@@ -16,18 +13,9 @@ public class BoardController : MonoBehaviour {
         if (grid[xpos, ypos] == null)
         {
 
-            if (xpos % 2 == 0) // if xpos is even
-            {
-                grid[xpos, ypos] = Instantiate( hexagons[color], new
-                    Vector3( xcoords[xpos], ycoords[ypos] ),
-                    Quaternion.identity ) as GameObject;
-            }
-            else // if xpos is odd
-            {
-                grid[xpos, ypos] = Instantiate( hexagons[color], new
-                    Vector3( xcoords[xpos], ycoords[ypos] - 8 ), // offset for odd hexes
-                    Quaternion.identity ) as GameObject;
-            }
+            grid[xpos, ypos] = Instantiate(hexagons[color], new
+                Vector3(GetXCoord(xpos), GetYCoord(xpos, ypos)),
+                Quaternion.identity) as GameObject;
 
             return true;
 
@@ -73,16 +61,7 @@ public class BoardController : MonoBehaviour {
 
             grid[x1, y1] = null;
 
-            if (x2 % 2 == 0)
-            {
-                grid[x2, y2].transform.position = new
-                    Vector3( xcoords[x2], ycoords[y2] );
-            }
-            else
-            {
-                grid[x2, y2].transform.position = new
-                    Vector3( xcoords[x2], ycoords[y2] - 8 );
-            }
+            grid[x2, y2].transform.position = new Vector3(GetXCoord(x2), GetYCoord(x2, y2));
 
             return true;
 
@@ -105,24 +84,6 @@ public class BoardController : MonoBehaviour {
             return true;
 
         }
-        else{
-
-            return false;
-
-        }
-
-    }
-
-    public bool IsFalling(int xpos, int ypos)
-    {
-
-        if (grid[xpos, ypos] != null)
-        {
-
-            HexController hex = (HexController)grid[xpos, ypos].GetComponent<MonoBehaviour>();
-            return hex.falling;
-
-        }
         else
         {
 
@@ -132,22 +93,23 @@ public class BoardController : MonoBehaviour {
 
     }
 
-    public bool StopFalling(int xpos, int ypos)
+    public int GetXCoord( int xpos )
     {
 
-        if (grid[xpos, ypos] != null)
+        return (14 * xpos) + 1;
+
+    }
+
+    public int GetYCoord(int xpos, int ypos)
+    {
+
+        if (xpos % 2 == 0)
         {
-
-            HexController hex = (HexController)grid[xpos, ypos].GetComponent<MonoBehaviour>();
-            hex.falling = false;
-            return true;
-
+            return (16 * ypos) + 9;
         }
         else
         {
-
-            return false;
-
+            return (16 * ypos) + 1;
         }
 
     }
