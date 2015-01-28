@@ -17,13 +17,14 @@ public class HexelController : MonoBehaviour
     public int color;
     public int xoffset;
     public int yoffset;
+    public int width;
 
     private int counter;
     private int rotation;
 
-    private GameObject[] hexes;
+    private static GameObject[] hexes = new GameObject[8];
 
-    private static BoardController board = GameController.board;
+    private BoardController board;
 
     void Start()
     {
@@ -31,12 +32,14 @@ public class HexelController : MonoBehaviour
         counter = 0;
         rotation = 0;
 
+        board = GameController.boardcontroller;
+        
         for (int i = 0; i < 4; i++)
         {
-
+            
             hexes[i] = Instantiate(board.hexagons[color], new
                 Vector3(board.GetXCoord(Rotate0[i] + xoffset),
-                board.GetYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset)),
+                GetFixedYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset, xoffset)),
                 Quaternion.identity) as GameObject;
 
         }
@@ -62,7 +65,7 @@ public class HexelController : MonoBehaviour
             {
 
                 hexes[i].transform.position = new Vector3(board.GetXCoord(Rotate0[i] + xoffset),
-                board.GetYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset));
+                GetFixedYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset, xoffset));
 
             }
 
@@ -78,7 +81,7 @@ public class HexelController : MonoBehaviour
             {
 
                 hexes[i].transform.position = new Vector3(board.GetXCoord(Rotate0[i] + xoffset),
-                board.GetYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset));
+                GetFixedYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset, xoffset));
 
             }
 
@@ -87,14 +90,14 @@ public class HexelController : MonoBehaviour
         if (Input.GetButtonDown("Right") && !Input.GetButtonDown("Left"))
         {
 
-            if (xoffset < 15)
+            if (xoffset < (15 - width))
                 xoffset++;
 
             for (int i = 0; i < 4; i++)
             {
 
                 hexes[i].transform.position = new Vector3(board.GetXCoord(Rotate0[i] + xoffset),
-                board.GetYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset));
+                GetFixedYCoord(Rotate0[i] + xoffset, Rotate0[i + 4] + yoffset, xoffset));
 
             }
 

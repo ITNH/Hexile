@@ -6,20 +6,32 @@ public class GameController : MonoBehaviour {
     public int basespeed;
     public int dropspeed;
 
+    public GameObject boardprefab;
+    public GameObject[] hexelprefabs;
+
+    private GameObject board;
+
     [HideInInspector]
     public static int level;
     [HideInInspector]
     public static int speed;
     [HideInInspector]
-    public static BoardController board;
-
+    public static BoardController boardcontroller;
+    
     void Start()
     {
 
-        board = (BoardController)GameObject.Find("Board").GetComponent<MonoBehaviour>();
+        board = Instantiate(boardprefab, new
+            Vector3(0, 0), Quaternion.identity) as GameObject;
+
+        boardcontroller = (BoardController)board.GetComponent<MonoBehaviour>();
+
+        GameObject derp = Instantiate(hexelprefabs[1], new
+            Vector3(0, 0), Quaternion.identity) as GameObject;
+
 
         level = 1;
-        speed = 59;
+        speed = basespeed - 1;
 
     }
 
@@ -37,6 +49,6 @@ public class GameController : MonoBehaviour {
             speed = basespeed - level;
 
         }
-
+        
     }
 }

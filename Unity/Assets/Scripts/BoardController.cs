@@ -78,7 +78,7 @@ public class BoardController : MonoBehaviour {
     public bool IsHex( int xpos, int ypos )
     {
 
-        if ( grid[xpos, ypos] != null )
+        if (ypos < 0)
         {
 
             return true;
@@ -87,7 +87,18 @@ public class BoardController : MonoBehaviour {
         else
         {
 
-            return false;
+            if (grid[xpos, ypos] != null)
+            {
+
+                return true;
+
+            }
+            else
+            {
+
+                return false;
+
+            }
 
         }
 
@@ -105,10 +116,12 @@ public class BoardController : MonoBehaviour {
 
         if (xpos % 2 == 0)
         {
+            // even
             return (16 * ypos) + 9;
         }
         else
         {
+            // odd
             return (16 * ypos) + 1;
         }
 
