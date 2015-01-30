@@ -78,7 +78,7 @@ public class BoardController : MonoBehaviour {
     public bool IsHex( int xpos, int ypos )
     {
 
-        if (ypos < 0)
+        if (xpos < 0 || xpos > 14 || ypos < 0)
         {
 
             return true;
