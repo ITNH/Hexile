@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour {
 
         boardcontroller.AddHex(7, 0, 0);
 
-        GameObject derp = Instantiate(hexelprefabs[1], new
+        GameObject derp = Instantiate(hexelprefabs[0], new
             Vector3(0, 0), Quaternion.identity) as GameObject;
 
 

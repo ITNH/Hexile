@@ -9,6 +9,8 @@ public class HexelController : MonoBehaviour
     public int xoffset;
     public int yoffset;
 
+    public int[] rarray;
+
     // shape definitions
     // {x1,x2,x3,x4,y1,y2,y3,y4}
     public int[] Rotate0;
@@ -78,7 +80,14 @@ public class HexelController : MonoBehaviour
                 for (int i = 0; i < 4; i++)
                 {
 
-                    board.AddHex(rarray[i] + xoffset, rarray[i + 4] + yoffset, color);
+                    if ((xoffset % 2 != 0) && ((rarray[i] + xoffset) % 2 == 0))
+                    {
+                        board.AddHex(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1), color);
+                    }
+                    else
+                    {
+                        board.AddHex(rarray[i] + xoffset, rarray[i + 4] + yoffset, color);
+                    }
 
                     Destroy(hexes[i]);
 
@@ -158,6 +167,7 @@ public class HexelController : MonoBehaviour
         }
 
     }
+    
     private bool CheckMove(int xoffset, int yoffset, int rotation)
     {
 
@@ -169,8 +179,28 @@ public class HexelController : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
 
-            if (board.IsHex(rarray[i] + xoffset, rarray[i + 4] + yoffset))
-                flag = true;
+            if ((xoffset % 2 != 0) && ((rarray[i] + xoffset) % 2 == 0))
+            {
+
+                if (board.IsHex(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1)))
+                {
+
+                    flag = true;
+
+                }
+
+            }
+            else
+            {
+
+                if (board.IsHex(rarray[i] + xoffset, rarray[i + 4] + yoffset))
+                {
+
+                    flag = true;
+
+                }
+
+            }
 
         }
 
@@ -187,8 +217,16 @@ public class HexelController : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
 
-            hexes[i].transform.position = new Vector3(board.GetXCoord(rarray[i] + xoffset),
+            if ((xoffset % 2 != 0) && ((rarray[i] + xoffset) % 2 == 0))
+            {
+                hexes[i].transform.position = new Vector3(board.GetXCoord(rarray[i] + xoffset),
+                board.GetYCoord(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1)));
+            }
+            else
+            {
+                hexes[i].transform.position = new Vector3(board.GetXCoord(rarray[i] + xoffset),
                 board.GetYCoord(rarray[i] + xoffset, rarray[i + 4] + yoffset));
+            }
 
         }
 
