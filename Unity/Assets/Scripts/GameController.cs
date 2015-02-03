@@ -30,8 +30,6 @@ public class GameController : MonoBehaviour {
 
         boardcontroller = board.GetComponent<BoardController>();
 
-        boardcontroller.AddHex(7, 0, 0);
-
         level = 1;
         speed = basespeed - 1;
 
