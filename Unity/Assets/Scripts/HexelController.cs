@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class HexelController : MonoBehaviour
 {
 
@@ -133,6 +132,48 @@ public class HexelController : MonoBehaviour
 
         }
 
+        // Twist it!
+        if (Input.GetButtonDown("RotateR") && !Input.GetButtonDown("RotateL"))
+        {
+
+            int newrotation = rotation + 60;
+            if (newrotation >= 360)
+                newrotation = 0;
+
+            // Is there something there?
+            if (!CheckMove(xoffset, yoffset, newrotation))
+            {
+
+                // Move it!
+                DoMove(xoffset, yoffset, newrotation);
+
+                rotation = newrotation;
+
+            }
+
+        }
+
+        // The other way!
+        if (Input.GetButtonDown("RotateL") && !Input.GetButtonDown("RotateR"))
+        {
+
+            int newrotation = rotation - 60;
+            if (newrotation <= -60)
+                newrotation = 300;
+
+            // Is there something there?
+            if (!CheckMove(xoffset, yoffset, newrotation))
+            {
+
+                // Move it!
+                DoMove(xoffset, yoffset, newrotation);
+
+                rotation = newrotation;
+
+            }
+
+        }
+
     }
 
 
@@ -161,7 +202,7 @@ public class HexelController : MonoBehaviour
                 return Rotate300;
 
             default:
-                Debug.Log("Warning: HexelController.GetRotateArray was passed an invalid value!");
+                Debug.Log("Warning: HexelController.GetRotateArray was passed an invalid value: " + rotation.ToString());
                 return null;
 
         }

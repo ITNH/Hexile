@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameController : MonoBehaviour {
 
@@ -10,6 +11,9 @@ public class GameController : MonoBehaviour {
     public GameObject[] hexelprefabs;
 
     private GameObject board;
+    private GameObject currenthexel;
+
+    private System.Random random = new System.Random();
 
     [HideInInspector]
     public static int level;
@@ -27,10 +31,6 @@ public class GameController : MonoBehaviour {
         boardcontroller = board.GetComponent<BoardController>();
 
         boardcontroller.AddHex(7, 0, 0);
-
-        GameObject derp = Instantiate(hexelprefabs[0], new
-            Vector3(0, 0), Quaternion.identity) as GameObject;
-
 
         level = 1;
         speed = basespeed - 1;
@@ -51,6 +51,17 @@ public class GameController : MonoBehaviour {
             speed = basespeed - level;
 
         }
+
+        // check if the hexel has set and self-destructed
+        if (currenthexel == null)
+        {
+
+            // create a random new hexel
+            currenthexel = Instantiate(hexelprefabs[random.Next(0, hexelprefabs.Length)], new
+            Vector3(0, 0), Quaternion.identity) as GameObject;
+
+        }
         
     }
+
 }
