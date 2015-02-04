@@ -1,4 +1,4 @@
-Working-Title
+Hexile
 =============
 
-A work in progress Tetris-like puzzle game crated for the BPA Software Engineering competition.
+A work in progress Tetris-like puzzle game based on hexagons. Created for the BPA Software Engineering competition.
