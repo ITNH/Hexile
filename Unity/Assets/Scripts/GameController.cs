@@ -2,28 +2,21 @@
 using System.Collections;
 using System;
 
-public class GameController : MonoBehaviour {
-
-    public int basespeed;
-    public int dropspeed;
+public class GameController : MonoBehaviour
+{
 
     public GameObject board;
-
-    public GameObject[] hexels;
-
-    private GameObject currenthexel;
-
-    private System.Random random = new System.Random();
-
-    [HideInInspector]
-    public static int level;
-    [HideInInspector]
-    public static int speed;
+    public GameObject[] hexelprefabs;
 
     [HideInInspector]
     public static BoardController boardcontroller;
     [HideInInspector]
     public static ScoreController scorecontroller;
+    [HideInInspector]
+    public static GameObject currenthexel;
+
+    private static System.Random random = new System.Random();
+    private static GameObject[] hexels;
     
     void Start()
     {
@@ -34,39 +27,28 @@ public class GameController : MonoBehaviour {
         boardcontroller = transform.root.gameObject.GetComponent<BoardController>();
         scorecontroller = transform.root.gameObject.GetComponent<ScoreController>();
 
-        level = 1;
-        speed = basespeed - 1;
+        hexels = hexelprefabs;
+
+        SpawnHexel();
 
     }
 
-    void Update()
+    public static void DestroyHexel()
     {
 
-        if (Input.GetButton("Down")) {
+        Destroy(currenthexel);
+        currenthexel = null;
 
-            speed = dropspeed;
+        scorecontroller.Trigger();
 
-        }
-        else
-        {
+    }
 
-            speed = basespeed - level;
+    public static void SpawnHexel()
+    {
 
-        }
-
-        // check if the hexel has set and self-destructed
-        if (currenthexel == null)
-        {
-
-            // create a random new hexel
-            currenthexel = Instantiate(hexels[random.Next(0, hexels.Length)], new
+        currenthexel = Instantiate(hexels[random.Next(0, hexels.Length)], new
             Vector3(0, 0), Quaternion.identity) as GameObject;
 
-            // trigger the score controller
-            scorecontroller.Trigger();
-
-        }
-        
     }
 
 }

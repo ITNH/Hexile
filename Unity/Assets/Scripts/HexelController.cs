@@ -4,6 +4,8 @@ using System.Collections;
 public class HexelController : MonoBehaviour
 {
 
+    public int basespeed;
+    public int dropspeed;
     public int color;
     public int xoffset;
     public int yoffset;
@@ -21,6 +23,7 @@ public class HexelController : MonoBehaviour
 
     private int counter;
     private int rotation;
+    private int speed;
 
     private GameObject[] hexes = new GameObject[8];
 
@@ -31,6 +34,7 @@ public class HexelController : MonoBehaviour
 
         counter = 0;
         rotation = 0;
+        speed = basespeed;
 
         board = GameController.boardcontroller;
         
@@ -54,7 +58,7 @@ public class HexelController : MonoBehaviour
         counter++;
 
         // If it's time to drop...
-        if (counter >= GameController.speed)
+        if (counter >= speed)
         {
 
             counter = 0;
@@ -92,9 +96,22 @@ public class HexelController : MonoBehaviour
 
                 }
 
-                Destroy(transform.root.gameObject);
+                GameController.DestroyHexel();
 
             }
+
+        }
+         // Drop it like it's hot!
+        if (Input.GetButton("Down"))
+        {
+
+            speed = dropspeed;
+
+        }
+        else
+        {
+
+            speed = basespeed - GameController.scorecontroller.level;
 
         }
 
