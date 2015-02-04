@@ -7,10 +7,10 @@ public class GameController : MonoBehaviour {
     public int basespeed;
     public int dropspeed;
 
-    public GameObject boardprefab;
-    public GameObject[] hexelprefabs;
+    public GameObject board;
 
-    private GameObject board;
+    public GameObject[] hexels;
+
     private GameObject currenthexel;
 
     private System.Random random = new System.Random();
@@ -19,16 +19,20 @@ public class GameController : MonoBehaviour {
     public static int level;
     [HideInInspector]
     public static int speed;
+
     [HideInInspector]
     public static BoardController boardcontroller;
+    [HideInInspector]
+    public static ScoreController scorecontroller;
     
     void Start()
     {
 
-        board = Instantiate(boardprefab, new
+        board = Instantiate(board, new
             Vector3(0, 0), Quaternion.identity) as GameObject;
 
-        boardcontroller = board.GetComponent<BoardController>();
+        boardcontroller = transform.root.gameObject.GetComponent<BoardController>();
+        scorecontroller = transform.root.gameObject.GetComponent<ScoreController>();
 
         level = 1;
         speed = basespeed - 1;
@@ -55,8 +59,11 @@ public class GameController : MonoBehaviour {
         {
 
             // create a random new hexel
-            currenthexel = Instantiate(hexelprefabs[random.Next(0, hexelprefabs.Length)], new
+            currenthexel = Instantiate(hexels[random.Next(0, hexels.Length)], new
             Vector3(0, 0), Quaternion.identity) as GameObject;
+
+            // trigger the score controller
+            scorecontroller.Trigger();
 
         }
         
