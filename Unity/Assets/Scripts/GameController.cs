@@ -33,6 +33,18 @@ public class GameController : MonoBehaviour
 
     }
 
+    void Update()
+    {
+
+        if (Input.GetButton("Back"))
+        {
+
+            Application.Quit();
+
+        }
+
+    }
+
     public static void DestroyHexel()
     {
 
