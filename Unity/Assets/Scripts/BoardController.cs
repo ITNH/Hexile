@@ -105,7 +105,54 @@ public class BoardController : MonoBehaviour
 
     }
 
-    public int GetXCoord( int xpos )
+    public GameObject getHex(int xpos, int ypos)
+    {
+
+        return grid[xpos, ypos];
+
+    }
+
+    public bool hideHex(int xpos, int ypos)
+    {
+
+        if (grid[xpos, ypos] == null)
+        {
+
+            return false;
+
+        }
+        else
+        {
+
+            grid[xpos, ypos].renderer.enabled = false;
+
+            return true;
+
+        }
+
+    }
+
+    public bool showHex(int xpos, int ypos)
+    {
+
+        if (grid[xpos, ypos] == null)
+        {
+
+            return false;
+
+        }
+        else
+        {
+
+            grid[xpos, ypos].renderer.enabled = true;
+
+            return true;
+
+        }
+
+    }
+
+    public int GetXCoord(int xpos)
     {
 
         return (14 * xpos) + 1;
