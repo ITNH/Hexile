@@ -32,11 +32,6 @@ public class ScoreController : MonoBehaviour
         switch (state)
         {
 
-            case "tick":
-
-                state = "check";
-                break;
-
             case "check":
 
                 bool isrow = false;
@@ -70,7 +65,7 @@ public class ScoreController : MonoBehaviour
                 {
 
                     state = "blink";
-                    timer = 59;
+                    timer = 0;
                     counter = 0;
 
                 }
@@ -86,38 +81,123 @@ public class ScoreController : MonoBehaviour
 
             case "blink":
 
-                timer++;
-
                 if (counter == 2)
                 {
 
-                    state = null;
+                    state = "clear";
 
                 }
+                else
+                {
+
+                    if (timer == 0)
+                    {
+
+                        for (int row = 0; row < 15; row++)
+                        {
+
+                            if (rows[row])
+                            {
+
+                                for (int col = 0; col < 15; col++)
+                                {
+
+                                    board.hideHex(col, row);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    if (timer == 30)
+                    {
+
+                        for (int row = 0; row < 15; row++)
+                        {
+
+                            if (rows[row])
+                            {
+
+                                for (int col = 0; col < 15; col++)
+                                {
+
+                                    board.showHex(col, row);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    timer++;
+
+                    if (timer == 60)
+                    {
+
+                        timer = 0;
+                        counter++;
+
+                    }
+
+                }
+
+                break;
+
+            case "clear":
+
+                counter = 0;
+
+                for (int row = 0; row < 15; row++)
+                {
+
+                    if (rows[row])
+                    {
+
+                        for (int col = 0; col < 15; col++)
+                        {
+
+                            board.RemoveHex(col, row);
+
+                        }
+
+                    }
+
+                }
+
+                state = "wait";
+                timer = 0;
+                
+                break;
+
+            case "wait":
+
+                timer++;
 
                 if (timer == 60)
+                    state = "drop";
+
+                break;
+
+            case "drop":
+
+                for (int row = 0; row < 15; row++)
                 {
 
-                    timer = 0;
-                    counter++;
+                    if (rows[row])
+                        counter++;
 
-                }
-
-                if (timer == 0)
-                {
-
-                    for (int row = 0; row < 15; row++)
+                    for (int drops = 0; drops < counter; drops++)
                     {
 
-                        if (rows[row])
+                        for (int col = 0; col < 15; col++)
                         {
 
-                            for (int col = 0; col < 15; col++)
-                            {
-
-                                board.hideHex(col, row);
-
-                            }
+                            board.MoveHex(col, row - drops, col, row - drops - 1);
 
                         }
 
@@ -125,27 +205,8 @@ public class ScoreController : MonoBehaviour
 
                 }
 
-                if (timer == 30)
-                {
-
-                    for (int row = 0; row < 15; row++)
-                    {
-
-                        if (rows[row])
-                        {
-
-                            for (int col = 0; col < 15; col++)
-                            {
-
-                                board.showHex(col, row);
-
-                            }
-
-                        }
-
-                    }
-
-                }
+                state = null;
+                GameController.SpawnHexel();
 
                 break;
             
@@ -160,7 +221,7 @@ public class ScoreController : MonoBehaviour
     public void Trigger() 
     {
 
-        state = "tick";
+        state = "check";
         
     }
 
