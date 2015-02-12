@@ -10,8 +10,6 @@ public class HexelController : MonoBehaviour
     public int xoffset;
     public int yoffset;
 
-    public int[] rarray;
-
     // shape definitions
     // {x1,x2,x3,x4,y1,y2,y3,y4}
     public int[] Rotate0;

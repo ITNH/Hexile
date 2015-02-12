@@ -205,8 +205,17 @@ public class ScoreController : MonoBehaviour
 
                 }
 
-                state = null;
-                GameController.SpawnHexel();
+                timer = 0;
+                state = "cascade";
+
+                break;
+
+            case "cascade":
+
+                timer++;
+
+                if (timer == 60)
+                    state = "check";
 
                 break;
             
