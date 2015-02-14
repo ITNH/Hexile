@@ -17,9 +17,20 @@ public class GameController : MonoBehaviour
 
     private static System.Random random = new System.Random();
     private static GameObject[] hexels;
+
+    private int width = 640;
+    private int height = 480;
     
     void Start()
     {
+
+        if (!Screen.fullScreen)
+        {
+
+            width = Screen.width;
+            height = Screen.height;
+
+        }
 
         board = Instantiate(board, new
             Vector3(0, 0), Quaternion.identity) as GameObject;
@@ -40,6 +51,24 @@ public class GameController : MonoBehaviour
         {
 
             Application.Quit();
+
+        }
+
+
+
+        if (Input.GetButtonDown("Fullscreen") && Screen.fullScreen)
+        {
+
+            Screen.SetResolution(width, height, false);
+
+        }
+
+        if (Input.GetButtonDown("Fullscreen") && !Screen.fullScreen)
+        {
+
+            width = Screen.width;
+            height = Screen.height;
+            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
 
         }
 
