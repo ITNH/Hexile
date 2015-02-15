@@ -14,18 +14,11 @@ public class GameController : MonoBehaviour
     private static System.Random random = new System.Random();
 
     // Variables for maintaining the state engine
-    private GameObject currenthexel;
-    private string gamestate;
-    bool[] rows;
-    int timer;
-    int counter;
-
-    void Start()
-    {
-
-        gamestate = "stopped";
-
-    }
+    private GameObject currenthexel = null;
+    private string gamestate = "stopped";
+    bool[] rows = new bool[15];
+    int timer = 0;
+    int counter = 0;
 
     void Update()
     {

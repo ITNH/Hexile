@@ -5,8 +5,8 @@ using System.Collections;
 public class BoardController : MonoBehaviour
 {
 
-    private static GameObject[,] hexobjects = new GameObject[15, 20];
-    private static int[,] colorgrid = new int[15, 20];
+    private GameObject[,] hexobjects = new GameObject[15, 20];
+    private int[,] colorgrid = new int[15, 20];
 
     public bool AddHex(int xpos, int ypos, int color)
     {

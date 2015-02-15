@@ -24,9 +24,6 @@ public class GameManager : MonoBehaviour {
     // Tracking reference for ensuring singleton status
     private static GameManager game;
 
-    // temp flag until menu is implemented
-    private bool flag = false;
-
     void Awake()
     {
 
@@ -69,20 +66,13 @@ public class GameManager : MonoBehaviour {
         boardcontroller = (BoardController)gameObject.AddComponent("BoardController");
         rowcontroller = (RowController)gameObject.AddComponent("RowController");
 
+        // Start the game
+        gamecontroller.NewGame();
+
     }
 
     void Update()
     {
-
-        if (!flag)
-        {
-
-            // Start the game
-            gamecontroller.NewGame();
-
-            flag = true;
-
-        }
 
         // Restore to window if F11 is pressed during fullscreen
         if (Input.GetButtonDown("Fullscreen") && Screen.fullScreen)
