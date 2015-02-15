@@ -4,14 +4,17 @@ using System.Collections;
 public class HexelController : MonoBehaviour
 {
 
+    // Property definitions, to be defined in the inspector
+    public int color;
+    public int xstart;
+    public int ystart;
     public int basespeed;
     public int dropspeed;
-    public int color;
-    public int xoffset;
-    public int yoffset;
 
-    // shape definitions
-    // {x1,x2,x3,x4,y1,y2,y3,y4}
+    /* Shape definitions, to be defined in the inspector
+     * All hexels should rotate around 0,0
+     * Format: {x1,x2,x3,x4,y1,y2,y3,y4}
+     */
     public int[] Rotate0;
     public int[] Rotate60;
     public int[] Rotate120;
@@ -19,61 +22,75 @@ public class HexelController : MonoBehaviour
     public int[] Rotate240;
     public int[] Rotate300;
 
-    private int counter;
+    // Variables for tracking the hexel's current state
     private int rotation;
-    private int speed;
+    private int xpos;
+    private int ypos;
+    private int dropcounter;
+    private int currentspeed;
 
-    private GameObject[] hexes = new GameObject[8];
-
-    private BoardController board;
+    private GameObject[] hexes = new GameObject[4];
 
     void Start()
     {
 
-        counter = 0;
+        // Set coordinates
+        xpos = xstart;
+        ypos = ystart;
         rotation = 0;
-        speed = basespeed;
 
-        board = GameController.boardcontroller;
-        
-        // Make dem hexes!
+        // Create hex objects
         for (int i = 0; i < 4; i++)
         {
-            
-            hexes[i] = Instantiate(board.hexagons[color], new
+
+            hexes[i] = Instantiate(GameManager.hexprefabs[color], new
                 Vector3(300, 300), Quaternion.identity) as GameObject;
 
         }
 
         // Put 'em on screen!
-        DoMove(xoffset, yoffset, rotation);
+        SetHexCoords(xpos, ypos, rotation);
 
     }
 
     void Update()
     {
 
-        counter++;
+        dropcounter++;
 
-        // If it's time to drop...
-        if (counter >= speed)
+        // Drop it like it's hot!
+        if (Input.GetButton("Down"))
         {
 
-            counter = 0;
+            currentspeed = dropspeed;
+
+        }
+        else
+        {
+
+            currentspeed = basespeed - GameManager.gamecontroller.level;
+
+        }
+
+        // If it's time to drop...
+        if (dropcounter >= currentspeed)
+        {
+
+            dropcounter = 0;
 
             // Gravity check!
-            if (!CheckMove(xoffset, yoffset - 1, rotation))
+            if (!CheckPosition(xpos, ypos - 1, rotation))
             {
 
                 // Bring it down!
-                DoMove(xoffset, yoffset - 1, rotation);
+                SetHexCoords(xpos, ypos - 1, rotation);
 
-                yoffset--;
+                ypos--;
 
             }
             else
             {
-                
+
                 // Turn 8 function calls into 1 (Yay optimization!)
                 int[] rarray = GetRotateArray(rotation);
 
@@ -81,35 +98,22 @@ public class HexelController : MonoBehaviour
                 for (int i = 0; i < 4; i++)
                 {
 
-                    if ((xoffset % 2 != 0) && ((rarray[i] + xoffset) % 2 == 0))
+                    if ((xpos % 2 != 0) && ((rarray[i] + xpos) % 2 == 0))
                     {
-                        board.AddHex(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1), color);
+                        GameManager.boardcontroller.AddHex(rarray[i] + xpos, rarray[i + 4] + (ypos - 1), color);
                     }
                     else
                     {
-                        board.AddHex(rarray[i] + xoffset, rarray[i + 4] + yoffset, color);
+                        GameManager.boardcontroller.AddHex(rarray[i] + xpos, rarray[i + 4] + ypos, color);
                     }
 
                     Destroy(hexes[i]);
 
                 }
 
-                GameController.DestroyHexel();
+                GameManager.gamecontroller.SetHexel();
 
             }
-
-        }
-         // Drop it like it's hot!
-        if (Input.GetButton("Down"))
-        {
-
-            speed = dropspeed;
-
-        }
-        else
-        {
-
-            speed = basespeed - GameController.scorecontroller.level;
 
         }
 
@@ -118,13 +122,13 @@ public class HexelController : MonoBehaviour
         {
 
             // Is there something there?
-            if (!CheckMove(xoffset - 1, yoffset, rotation))
+            if (!CheckPosition(xpos - 1, ypos, rotation))
             {
 
                 // Move it!
-                DoMove(xoffset - 1, yoffset, rotation);
+                SetHexCoords(xpos - 1, ypos, rotation);
 
-                xoffset--;
+                xpos--;
 
             }
 
@@ -135,13 +139,13 @@ public class HexelController : MonoBehaviour
         {
 
             // Is there something there?
-            if (!CheckMove(xoffset + 1, yoffset, rotation))
+            if (!CheckPosition(xpos + 1, ypos, rotation))
             {
 
                 // Move it!
-                DoMove(xoffset + 1, yoffset, rotation);
+                SetHexCoords(xpos + 1, ypos, rotation);
 
-                xoffset++;
+                xpos++;
 
             }
 
@@ -156,11 +160,11 @@ public class HexelController : MonoBehaviour
                 newrotation = 0;
 
             // Is there something there?
-            if (!CheckMove(xoffset, yoffset, newrotation))
+            if (!CheckPosition(xpos, ypos, newrotation))
             {
 
                 // Move it!
-                DoMove(xoffset, yoffset, newrotation);
+                SetHexCoords(xpos, ypos, newrotation);
 
                 rotation = newrotation;
 
@@ -177,11 +181,11 @@ public class HexelController : MonoBehaviour
                 newrotation = 300;
 
             // Is there something there?
-            if (!CheckMove(xoffset, yoffset, newrotation))
+            if (!CheckPosition(xpos, ypos, newrotation))
             {
 
                 // Move it!
-                DoMove(xoffset, yoffset, newrotation);
+                SetHexCoords(xpos, ypos, newrotation);
 
                 rotation = newrotation;
 
@@ -191,7 +195,7 @@ public class HexelController : MonoBehaviour
 
     }
 
-
+    // Returns the correct shape definition based on the given rotation
     private int[] GetRotateArray(int rotation)
     {
 
@@ -223,8 +227,9 @@ public class HexelController : MonoBehaviour
         }
 
     }
-    
-    private bool CheckMove(int xoffset, int yoffset, int rotation)
+
+    // Checks whether the given position will result in a collision
+    private bool CheckPosition(int xoffset, int yoffset, int rotation)
     {
 
         bool flag = false;
@@ -238,7 +243,7 @@ public class HexelController : MonoBehaviour
             if ((xoffset % 2 != 0) && ((rarray[i] + xoffset) % 2 == 0))
             {
 
-                if (board.IsHex(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1)))
+                if (GameManager.boardcontroller.IsHex(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1)))
                 {
 
                     flag = true;
@@ -249,7 +254,7 @@ public class HexelController : MonoBehaviour
             else
             {
 
-                if (board.IsHex(rarray[i] + xoffset, rarray[i + 4] + yoffset))
+                if (GameManager.boardcontroller.IsHex(rarray[i] + xoffset, rarray[i + 4] + yoffset))
                 {
 
                     flag = true;
@@ -264,7 +269,8 @@ public class HexelController : MonoBehaviour
 
     }
 
-    private void DoMove(int xoffset, int yoffset, int rotation)
+    // Sets the on-screen coordinates of the hexes
+    private void SetHexCoords(int xoffset, int yoffset, int rotation)
     {
 
         // turn 12 function calls into 1 (Yay optimization!)
@@ -275,13 +281,17 @@ public class HexelController : MonoBehaviour
 
             if ((xoffset % 2 != 0) && ((rarray[i] + xoffset) % 2 == 0))
             {
-                hexes[i].transform.position = new Vector3(board.GetXCoord(rarray[i] + xoffset),
-                board.GetYCoord(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1)));
+
+                hexes[i].transform.position = new Vector3(GameManager.boardcontroller.GetXCoord(rarray[i] + xoffset),
+                GameManager.boardcontroller.GetYCoord(rarray[i] + xoffset, rarray[i + 4] + (yoffset - 1)));
+
             }
             else
             {
-                hexes[i].transform.position = new Vector3(board.GetXCoord(rarray[i] + xoffset),
-                board.GetYCoord(rarray[i] + xoffset, rarray[i + 4] + yoffset));
+
+                hexes[i].transform.position = new Vector3(GameManager.boardcontroller.GetXCoord(rarray[i] + xoffset),
+                GameManager.boardcontroller.GetYCoord(rarray[i] + xoffset, rarray[i + 4] + yoffset));
+
             }
 
         }

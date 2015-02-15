@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Controller for tracking and managing hexes on the board in-game
 public class BoardController : MonoBehaviour
 {
 
-    public GameObject[] hexagons;
-    
-    private static GameObject[,] grid = new GameObject[15, 20];
+    private static GameObject[,] hexobjects = new GameObject[15, 20];
+    private static int[,] colorgrid = new int[15, 20];
 
     public bool AddHex(int xpos, int ypos, int color)
     {
 
-        if (grid[xpos, ypos] == null)
+        if (hexobjects[xpos, ypos] == null)
         {
 
-            grid[xpos, ypos] = Instantiate(hexagons[color], new
+            hexobjects[xpos, ypos] = Instantiate(GameManager.hexprefabs[color], new
                 Vector3(GetXCoord(xpos), GetYCoord(xpos, ypos)),
                 Quaternion.identity) as GameObject;
+
+            colorgrid[xpos, ypos] = color;
 
             return true;
 
@@ -30,15 +32,16 @@ public class BoardController : MonoBehaviour
 
     }
 
-    public bool RemoveHex( int xpos, int ypos)
+    public bool RemoveHex(int xpos, int ypos)
     {
 
-        if ( grid[xpos, ypos] != null )
+        if (hexobjects[xpos, ypos] != null)
         {
 
-            Destroy(grid[xpos, ypos]);
+            Destroy(hexobjects[xpos, ypos]);
+            hexobjects[xpos, ypos] = null;
 
-            grid[xpos, ypos] = null;
+            colorgrid[xpos, ypos] = 0;
 
             return true;
 
@@ -50,19 +53,21 @@ public class BoardController : MonoBehaviour
 
         }
 
-	}
+    }
 
     public bool MoveHex(int x1, int y1, int x2, int y2)
     {
 
-        if ( grid[x1, y1] != null && grid[x2, y2] == null )
+        if (hexobjects[x1, y1] != null && hexobjects[x2, y2] == null)
         {
 
-            grid[x2, y2] = grid[x1, y1];
+            hexobjects[x2, y2] = hexobjects[x1, y1];
+            colorgrid[x2, y2] = colorgrid[x1, y1];
 
-            grid[x1, y1] = null;
+            hexobjects[x1, y1] = null;
+            colorgrid[x1, y1] = 0;
 
-            grid[x2, y2].transform.position = new Vector3(GetXCoord(x2), GetYCoord(x2, y2));
+            hexobjects[x2, y2].transform.position = new Vector3(GetXCoord(x2), GetYCoord(x2, y2));
 
             return true;
 
@@ -76,7 +81,7 @@ public class BoardController : MonoBehaviour
 
     }
 
-    public bool IsHex( int xpos, int ypos )
+    public bool IsHex(int xpos, int ypos)
     {
 
         if (xpos < 0 || xpos > 14 || ypos < 0)
@@ -88,7 +93,7 @@ public class BoardController : MonoBehaviour
         else
         {
 
-            if (grid[xpos, ypos] != null)
+            if (hexobjects[xpos, ypos] != null)
             {
 
                 return true;
@@ -108,14 +113,21 @@ public class BoardController : MonoBehaviour
     public GameObject getHex(int xpos, int ypos)
     {
 
-        return grid[xpos, ypos];
+        return hexobjects[xpos, ypos];
+
+    }
+
+    public int getHexColor(int xpos, int ypos)
+    {
+
+        return colorgrid[xpos, ypos];
 
     }
 
     public bool hideHex(int xpos, int ypos)
     {
 
-        if (grid[xpos, ypos] == null)
+        if (hexobjects[xpos, ypos] == null)
         {
 
             return false;
@@ -124,7 +136,7 @@ public class BoardController : MonoBehaviour
         else
         {
 
-            grid[xpos, ypos].renderer.enabled = false;
+            hexobjects[xpos, ypos].renderer.enabled = false;
 
             return true;
 
@@ -135,7 +147,7 @@ public class BoardController : MonoBehaviour
     public bool showHex(int xpos, int ypos)
     {
 
-        if (grid[xpos, ypos] == null)
+        if (hexobjects[xpos, ypos] == null)
         {
 
             return false;
@@ -144,7 +156,7 @@ public class BoardController : MonoBehaviour
         else
         {
 
-            grid[xpos, ypos].renderer.enabled = true;
+            hexobjects[xpos, ypos].renderer.enabled = true;
 
             return true;
 
@@ -152,6 +164,7 @@ public class BoardController : MonoBehaviour
 
     }
 
+    // Utility functions for converting grid coordinates to on-screen coordinates
     public int GetXCoord(int xpos)
     {
 

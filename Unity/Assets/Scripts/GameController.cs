@@ -2,93 +2,171 @@
 using System.Collections;
 using System;
 
+// Controller for managing in-game data and events
 public class GameController : MonoBehaviour
 {
 
-    public GameObject board;
-    public GameObject[] hexelprefabs;
-
     [HideInInspector]
-    public static BoardController boardcontroller;
+    public int score { get; private set; }
     [HideInInspector]
-    public static ScoreController scorecontroller;
-    [HideInInspector]
-    public static GameObject currenthexel;
+    public int level { get; private set; }
 
     private static System.Random random = new System.Random();
-    private static GameObject[] hexels;
 
-    private int width = 640;
-    private int height = 480;
-    
+    // Variables for maintaining the state engine
+    private GameObject currenthexel;
+    private string gamestate;
+    bool[] rows;
+    int timer;
+    int counter;
+
     void Start()
     {
 
-        if (!Screen.fullScreen)
-        {
-
-            width = Screen.width;
-            height = Screen.height;
-
-        }
-
-        board = Instantiate(board, new
-            Vector3(0, 0), Quaternion.identity) as GameObject;
-
-        boardcontroller = transform.root.gameObject.GetComponent<BoardController>();
-        scorecontroller = transform.root.gameObject.GetComponent<ScoreController>();
-
-        hexels = hexelprefabs;
-
-        SpawnHexel();
+        gamestate = "stopped";
 
     }
 
     void Update()
     {
 
-        if (Input.GetButton("Back"))
+        switch (gamestate)
         {
 
-            Application.Quit();
+            case "stopped":
+                break;
 
-        }
+            case "start":
+
+                gamestate = "spawnhexel";
+
+                break;
 
 
+            case "spawnhexel":
 
-        if (Input.GetButtonDown("Fullscreen") && Screen.fullScreen)
-        {
+                currenthexel = Instantiate(GameManager.hexelprefabs[random.Next(0, GameManager.hexelprefabs.Length)], new
+                    Vector3(0, 0), Quaternion.identity) as GameObject;
 
-            Screen.SetResolution(width, height, false);
+                gamestate = "running";
 
-        }
+                break;
 
-        if (Input.GetButtonDown("Fullscreen") && !Screen.fullScreen)
-        {
+            case "running":
+                break;
 
-            width = Screen.width;
-            height = Screen.height;
-            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+            case "linecheck":
+
+                Destroy(currenthexel);
+
+                rows = GameManager.rowcontroller.CheckForRows();
+
+                bool isRow = false;
+
+                for (int row = 0; row < 15; row++)
+                {
+
+                    if (rows[row])
+                        isRow = true;
+
+                }
+
+                if (isRow)
+                {
+
+                    timer = 0;
+                    counter = 0;
+                    gamestate = "lineblink";
+
+                }
+                else
+                {
+
+                    gamestate = "spawnhexel";
+
+                }
+
+                break;
+
+            case "lineblink":
+
+                if (counter == 2)
+                {
+
+                    gamestate = "lineclear";
+
+                }
+                else
+                {
+
+                    if (timer == 0)
+                        GameManager.rowcontroller.HideRows(rows);
+
+                    if (timer == 25)
+                        GameManager.rowcontroller.ShowRows(rows);
+
+                    if (timer == 50)
+                    {
+
+                        timer = 0;
+                        counter++;
+
+                    }
+                    else
+                    {
+
+                        timer++;
+
+                    }
+
+                }
+
+                break;
+
+            case "lineclear":
+
+                GameManager.rowcontroller.ClearRows(rows);
+
+                timer = 0;
+                gamestate = "waitfordrop";
+
+                break;
+
+            case "waitfordrop":
+
+                timer++;
+
+                if (timer == 60)
+                    gamestate = "droplines";
+
+                break;
+
+            case "droplines":
+
+                GameManager.rowcontroller.DropRows(rows);
+
+                gamestate = "spawnhexel";
+
+                break;
+
+            default:
+                break;
 
         }
 
     }
 
-    public static void DestroyHexel()
+    public void NewGame()
     {
 
-        Destroy(currenthexel);
-        currenthexel = null;
-
-        scorecontroller.Trigger();
+        gamestate = "start";
 
     }
-
-    public static void SpawnHexel()
+    
+    public void SetHexel()
     {
 
-        currenthexel = Instantiate(hexels[random.Next(0, hexels.Length)], new
-            Vector3(0, 0), Quaternion.identity) as GameObject;
+        gamestate = "linecheck";
 
     }
 
