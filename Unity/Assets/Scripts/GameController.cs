@@ -11,6 +11,11 @@ public class GameController : MonoBehaviour
     public int score { get; private set; }
     [HideInInspector]
     public int level { get; private set; }
+    [HideInInspector]
+    public int lines { get; private set; }
+
+    // Constant array of numbers for scoring
+    private int[] linescores = { 0, 40, 100, 300, 1200 };
 
     // Reference to the current hexel's GameObject
     private GameObject currenthexel;
@@ -66,17 +71,23 @@ public class GameController : MonoBehaviour
 
                 rows = GameManager.rowcontroller.CheckForRows();
 
-                bool isRow = false;
+                int numrows = 0;
 
                 for (int row = 0; row < 15; row++)
                 {
 
                     if (rows[row])
-                        isRow = true;
+                        numrows++;
 
                 }
 
-                if (isRow)
+                score += linescores[numrows] * (level + 1);
+                level = lines / 10;
+                lines += numrows;
+
+                Debug.Log(score + " " + level + " " + lines);
+
+                if (numrows != 0)
                 {
 
                     timer = 0;
@@ -168,14 +179,14 @@ public class GameController : MonoBehaviour
         {
 
             GameManager.savecontroller.SaveGame(new GameSaveDataObject(
-                gamestate, score, level, rows, GameManager.boardcontroller.GetGrid(), hexelcolor));
+                gamestate, score, level, lines, rows, GameManager.boardcontroller.GetGrid(), hexelcolor));
 
         }
         else
         {
 
             GameManager.savecontroller.SaveGame(new GameSaveDataObject(
-                gamestate, score, level, rows,
+                gamestate, score, level, lines, rows,
                 GameManager.boardcontroller.GetGrid()));
 
         }
@@ -249,29 +260,33 @@ public class GameSaveDataObject
     public string gamestate { get; private set; }
     public int score { get; private set; }
     public int level { get; private set; }
+    public int lines { get; private set; }
     public bool[] rows { get; private set; }
     public int[,] grid { get; private set; }
     public int hexelcolor { get; private set; }
 
-    public GameSaveDataObject(string gamestate, int score, int level, bool[] rows, int[,] grid,
-        int hexelcolor)
+    public GameSaveDataObject(string gamestate, int score, int level, int lines, bool[] rows,
+        int[,] grid, int hexelcolor)
     {
 
         this.gamestate = gamestate;
         this.score = score;
         this.level = level;
+        this.lines = lines;
         this.rows = rows;
         this.grid = grid;
         this.hexelcolor = hexelcolor;
 
     }
 
-    public GameSaveDataObject(string gamestate, int score, int level, bool[] rows, int[,] grid)
+    public GameSaveDataObject(string gamestate, int score, int level, int lines, bool[] rows,
+        int[,] grid)
     {
 
         this.gamestate = gamestate;
         this.score = score;
         this.level = level;
+        this.lines = lines;
         this.rows = rows;
         this.grid = grid;
         this.hexelcolor = 0;

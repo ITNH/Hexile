@@ -51,7 +51,7 @@ public class SaveController : MonoBehaviour {
         {
 
             // If the file isn't there because derp, return a new game
-            return new GameSaveDataObject("stopped", 1, 1, new bool[15], new int[15, 20]);
+            return new GameSaveDataObject("stopped", 0, 0, 0, new bool[15], new int[15, 20]);
 
         }
 

@@ -71,7 +71,7 @@ public class HexelController : MonoBehaviour
         else
         {
 
-            currentspeed = basespeed - GameManager.gamecontroller.level;
+            currentspeed = basespeed - (GameManager.gamecontroller.level * 5);
 
         }
 
