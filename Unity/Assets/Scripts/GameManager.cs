@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     public static GameController gamecontroller;
     public static BoardController boardcontroller;
     public static RowController rowcontroller;
+    public static SaveController savecontroller;
 
     // Tracking reference for ensuring singleton status
     private static GameManager game;
@@ -65,9 +66,21 @@ public class GameManager : MonoBehaviour {
         gamecontroller = (GameController)gameObject.AddComponent("GameController");
         boardcontroller = (BoardController)gameObject.AddComponent("BoardController");
         rowcontroller = (RowController)gameObject.AddComponent("RowController");
+        savecontroller = (SaveController)gameObject.AddComponent("SaveController");
 
         // Start the game
-        gamecontroller.NewGame();
+        if (savecontroller.IsGameSaved())
+        {
+
+            gamecontroller.LoadGame();
+
+        }
+        else
+        {
+
+            gamecontroller.NewGame();
+
+        }
 
     }
 

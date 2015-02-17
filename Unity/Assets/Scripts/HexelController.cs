@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class HexelController : MonoBehaviour
@@ -26,6 +27,8 @@ public class HexelController : MonoBehaviour
     private int rotation;
     private int xpos;
     private int ypos;
+
+    // Variables for timing downward movement
     private int dropcounter;
     private int currentspeed;
 

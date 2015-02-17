@@ -4,9 +4,12 @@ using System.Collections;
 // Controller for tracking and managing hexes on the board in-game
 public class BoardController : MonoBehaviour
 {
-
+    
+    // Array of references to each hex's GameObject
     private GameObject[,] hexobjects = new GameObject[15, 20];
-    private int[,] colorgrid = new int[15, 20];
+
+    // Array indicating the color of each hex on the grid, 0 meaning empty
+    public int[,] colorgrid = new int[15, 20];
 
     public bool AddHex(int xpos, int ypos, int color)
     {
@@ -184,6 +187,35 @@ public class BoardController : MonoBehaviour
         {
             // odd
             return (16 * ypos) + 1;
+        }
+
+    }
+
+    public int[,] GetGrid()
+    {
+
+        return colorgrid;
+
+    }
+
+    public void LoadGrid(int[,] grid)
+    {
+
+        for (int row = 0; row < 20; row++)
+        {
+
+            for (int col = 0; col < 15; col++)
+            {
+
+                if (grid[col, row] != 0)
+                {
+
+                    AddHex(col, row, grid[col, row]);
+
+                }
+
+            }
+
         }
 
     }

@@ -1,24 +1,32 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections;
 
 // Controller for managing in-game data and events
 public class GameController : MonoBehaviour
 {
 
+    // Current score and level, globally readable but only settable internally
     [HideInInspector]
     public int score { get; private set; }
     [HideInInspector]
     public int level { get; private set; }
 
+    // Reference to the current hexel's GameObject
+    private GameObject currenthexel;
+
+    // Reference to the currently active HexelController
+    private HexelController hexelcontroller;
+
+    // RNG for spawning hexels
     private static System.Random random = new System.Random();
 
     // Variables for maintaining the state engine
-    private GameObject currenthexel = null;
     private string gamestate = "stopped";
     bool[] rows = new bool[15];
     int timer = 0;
     int counter = 0;
+    int hexelcolor = 0;
 
     void Update()
     {
@@ -35,11 +43,13 @@ public class GameController : MonoBehaviour
 
                 break;
 
-
             case "spawnhexel":
 
-                currenthexel = Instantiate(GameManager.hexelprefabs[random.Next(0, GameManager.hexelprefabs.Length)], new
+                hexelcolor = random.Next(0, GameManager.hexelprefabs.Length);
+                currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
                     Vector3(0, 0), Quaternion.identity) as GameObject;
+
+                hexelcontroller = currenthexel.GetComponent<HexelController>();
 
                 gamestate = "running";
 
@@ -51,6 +61,8 @@ public class GameController : MonoBehaviour
             case "linecheck":
 
                 Destroy(currenthexel);
+                currenthexel = null;
+                hexelcontroller = null;
 
                 rows = GameManager.rowcontroller.CheckForRows();
 
@@ -149,17 +161,120 @@ public class GameController : MonoBehaviour
 
     }
 
+    void OnDisable()
+    {
+
+        if (gamestate == "running")
+        {
+
+            GameManager.savecontroller.SaveGame(new GameSaveDataObject(
+                gamestate, score, level, rows, GameManager.boardcontroller.GetGrid(), hexelcolor));
+
+        }
+        else
+        {
+
+            GameManager.savecontroller.SaveGame(new GameSaveDataObject(
+                gamestate, score, level, rows,
+                GameManager.boardcontroller.GetGrid()));
+
+        }
+
+    }
+
     public void NewGame()
     {
 
         gamestate = "start";
 
     }
-    
+
+    public void LoadGame()
+    {
+
+        GameSaveDataObject savedata = GameManager.savecontroller.LoadGame();
+
+        gamestate = savedata.gamestate;
+        score = savedata.score;
+        level = savedata.level;
+        rows = savedata.rows;
+        hexelcolor = savedata.hexelcolor;
+        GameManager.boardcontroller.LoadGrid(savedata.grid);
+
+        switch (gamestate)
+        {
+
+            case "running":
+                
+                currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
+                    Vector3(0, 0), Quaternion.identity) as GameObject;
+
+                hexelcontroller = currenthexel.GetComponent<HexelController>();
+                
+                break;
+
+            case "lineblink":
+
+                timer = 0;
+                counter = 0;
+
+                break;
+
+            case "waitfordrop":
+
+                timer = 0;
+
+                break;
+
+            default:
+                break;
+
+        }
+
+    }
+
     public void SetHexel()
     {
 
         gamestate = "linecheck";
+
+    }
+
+}
+
+[Serializable]
+public class GameSaveDataObject
+{
+
+    public string gamestate { get; private set; }
+    public int score { get; private set; }
+    public int level { get; private set; }
+    public bool[] rows { get; private set; }
+    public int[,] grid { get; private set; }
+    public int hexelcolor { get; private set; }
+
+    public GameSaveDataObject(string gamestate, int score, int level, bool[] rows, int[,] grid,
+        int hexelcolor)
+    {
+
+        this.gamestate = gamestate;
+        this.score = score;
+        this.level = level;
+        this.rows = rows;
+        this.grid = grid;
+        this.hexelcolor = hexelcolor;
+
+    }
+
+    public GameSaveDataObject(string gamestate, int score, int level, bool[] rows, int[,] grid)
+    {
+
+        this.gamestate = gamestate;
+        this.score = score;
+        this.level = level;
+        this.rows = rows;
+        this.grid = grid;
+        this.hexelcolor = 0;
 
     }
 
