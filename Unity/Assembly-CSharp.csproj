@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HexelController.cs" />
+     <Compile Include="Assets\Scripts\MenuController.cs" />
      <Compile Include="Assets\Scripts\RowController.cs" />
      <Compile Include="Assets\Scripts\SaveController.cs" />
  <Reference Include="UnityEngine.UI">
