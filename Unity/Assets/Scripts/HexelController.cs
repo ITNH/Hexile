@@ -32,6 +32,10 @@ public class HexelController : MonoBehaviour
     private int dropcounter;
     private int currentspeed;
 
+    // Scoring-related variables
+    public int drops { get; private set; }
+    public int softdrops { get; private set; }
+
     private GameObject[] hexes = new GameObject[4];
 
     void Start()
@@ -48,6 +52,21 @@ public class HexelController : MonoBehaviour
 
             hexes[i] = Instantiate(GameManager.hexprefabs[color], new
                 Vector3(300, 300), Quaternion.identity) as GameObject;
+
+        }
+
+        // Check if we're overlapping when the hexel spawns, which triggers a game over
+        if (CheckPosition(xpos, ypos, rotation))
+        {
+
+            for (int i = 0; i < 4; i++)
+            {
+
+                Destroy(hexes[i]);
+
+            }
+
+            GameManager.gamecontroller.GameOver();
 
         }
 
@@ -89,6 +108,11 @@ public class HexelController : MonoBehaviour
                 SetHexCoords(xpos, ypos - 1, rotation);
 
                 ypos--;
+
+                if (Input.GetButton("Down"))
+                    softdrops++;
+
+                drops++;
 
             }
             else

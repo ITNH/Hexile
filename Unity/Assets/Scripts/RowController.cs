@@ -134,4 +134,27 @@ public class RowController : MonoBehaviour
 
     }
 
+    public void FillRows(bool[] rows, int color)
+    {
+
+        for (int row = 0; row < rows.Length; row++)
+        {
+
+            if (rows[row])
+            {
+
+                for (int col = 0; col < 15; col++)
+                {
+
+                    GameManager.boardcontroller.RemoveHex(col, row);
+                    GameManager.boardcontroller.AddHex(col, row, color);
+
+                }
+
+            }
+
+        }
+
+    }
+
 }

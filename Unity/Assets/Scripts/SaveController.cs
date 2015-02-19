@@ -50,8 +50,8 @@ public class SaveController : MonoBehaviour {
         else
         {
 
-            // If the file isn't there because derp, return a new game
-            return new GameSaveDataObject("stopped", 0, 0, 0, new bool[15], new int[15, 20]);
+            // If the file isn't there because derp, return an empty game
+            return new GameSaveDataObject();
 
         }
 

@@ -6,7 +6,7 @@ using System.Collections;
 public class GameController : MonoBehaviour
 {
 
-    // Current score and level, globally readable but only settable internally
+    // Scoring variables, globally readable but only settable internally
     [HideInInspector]
     public int score { get; private set; }
     [HideInInspector]
@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
     int timer = 0;
     int counter = 0;
     int hexelcolor = 0;
+    int nexthexel = 0;
 
     void Update()
     {
@@ -44,13 +45,16 @@ public class GameController : MonoBehaviour
 
             case "start":
 
+                hexelcolor = random.Next(0, GameManager.hexelprefabs.Length);
+
                 gamestate = "spawnhexel";
 
                 break;
 
             case "spawnhexel":
 
-                hexelcolor = random.Next(0, GameManager.hexelprefabs.Length);
+                hexelcolor = nexthexel;
+                nexthexel = random.Next(0, GameManager.hexelprefabs.Length);
                 currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
                     Vector3(0, 0), Quaternion.identity) as GameObject;
 
@@ -61,6 +65,7 @@ public class GameController : MonoBehaviour
                 break;
 
             case "running":
+
                 break;
 
             case "linecheck":
@@ -165,6 +170,65 @@ public class GameController : MonoBehaviour
 
                 break;
 
+            case "gameover":
+                
+                Destroy(currenthexel);
+                currenthexel = null;
+                hexelcontroller = null;
+
+                counter = 0;
+                rows = new bool[20];
+
+                gamestate = "fill";
+
+                break;
+
+            case "fill":
+
+                rows[counter] = true;
+
+                counter++;
+
+                GameManager.rowcontroller.FillRows(rows, 0);
+
+                if (counter >= 20)
+                {
+
+                    rows = new bool[20];
+                    counter = 0;
+
+                    gamestate = "wipe";
+
+                }
+
+                break;
+
+            case "wipe":
+
+                rows[counter] = true;
+
+                counter++;
+
+                GameManager.rowcontroller.ClearRows(rows);
+
+                if (counter >= 20)
+                {
+
+                    counter = 0;
+
+                    gamestate = "end";
+
+                }
+
+                break;
+
+            case "end":
+
+                if (Input.GetButtonDown("Select"))
+                    NewGame();
+
+                break;
+
             default:
                 break;
 
@@ -179,14 +243,7 @@ public class GameController : MonoBehaviour
         {
 
             GameManager.savecontroller.SaveGame(new GameSaveDataObject(
-                gamestate, score, level, lines, rows, GameManager.boardcontroller.GetGrid(), hexelcolor));
-
-        }
-        else
-        {
-
-            GameManager.savecontroller.SaveGame(new GameSaveDataObject(
-                gamestate, score, level, lines, rows,
+                gamestate, score, level, lines, rows, hexelcolor, nexthexel,
                 GameManager.boardcontroller.GetGrid()));
 
         }
@@ -251,6 +308,13 @@ public class GameController : MonoBehaviour
 
     }
 
+    public void GameOver()
+    {
+
+        gamestate = "gameover";
+
+    }
+
 }
 
 [Serializable]
@@ -262,25 +326,26 @@ public class GameSaveDataObject
     public int level { get; private set; }
     public int lines { get; private set; }
     public bool[] rows { get; private set; }
-    public int[,] grid { get; private set; }
     public int hexelcolor { get; private set; }
+    public int nexthexel { get; private set; }
+    public int[,] grid { get; private set; }
 
-    public GameSaveDataObject(string gamestate, int score, int level, int lines, bool[] rows,
-        int[,] grid, int hexelcolor)
+    public GameSaveDataObject()
     {
 
-        this.gamestate = gamestate;
-        this.score = score;
-        this.level = level;
-        this.lines = lines;
-        this.rows = rows;
-        this.grid = grid;
-        this.hexelcolor = hexelcolor;
+        this.gamestate = "stopped";
+        this.score = 0;
+        this.level = 0;
+        this.lines = 0;
+        this.rows = new bool[15];
+        this.hexelcolor = 0;
+        this.nexthexel = 0;
+        this.grid = new int[15,20];
 
     }
 
     public GameSaveDataObject(string gamestate, int score, int level, int lines, bool[] rows,
-        int[,] grid)
+        int hexelcolor, int nexthexel, int[,] grid)
     {
 
         this.gamestate = gamestate;
@@ -288,8 +353,9 @@ public class GameSaveDataObject
         this.level = level;
         this.lines = lines;
         this.rows = rows;
+        this.hexelcolor = hexelcolor;
+        this.nexthexel = nexthexel;
         this.grid = grid;
-        this.hexelcolor = 0;
 
     }
 
