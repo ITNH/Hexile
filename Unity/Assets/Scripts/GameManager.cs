@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// Singleton class, serves as central command and control for the game as a whole
+// Singleton controller in charge of managing the game window, audio, and static references
 public class GameManager : MonoBehaviour {
 
-    // Container arrays for prefabs, to be populated from inspector
+    // Container arrays for objects, to be populated from inspector
     public GameObject[] hexprefabcontainer;
     public GameObject[] hexelprefabcontainer;
+    public AudioClip[] soundcontainer;
 
-    // Static references to prefab arrays, for easy referencing
+    // Static references to object arrays, for easy referencing
     public static GameObject[] hexprefabs;
     public static GameObject[] hexelprefabs;
+    public static AudioClip[] sounds;
 
     // Current window width and height for restoring size after fullscreen
     private int width = 640;
@@ -22,21 +24,21 @@ public class GameManager : MonoBehaviour {
     public static RowController rowcontroller;
     public static SaveController savecontroller;
 
-    // Tracking reference for ensuring singleton status
-    private static GameManager game;
+    // Static self-reference for singleton tracking and audio access
+    public static GameManager gamemanager { get; private set; }
 
     void Awake()
     {
 
         // Verify singleton status when GameObject is initialized
-        if (game == null)
+        if (gamemanager == null)
         {
 
             DontDestroyOnLoad(gameObject);
-            game = this;
+            gamemanager = this;
 
         }
-        else if (game != this)
+        else if (gamemanager != this)
         {
 
             Destroy(gameObject);
@@ -61,26 +63,13 @@ public class GameManager : MonoBehaviour {
         // Set static prefab array references
         hexprefabs = hexprefabcontainer;
         hexelprefabs = hexelprefabcontainer;
+        sounds = soundcontainer;
 
         // Create controllers
         gamecontroller = (GameController)gameObject.AddComponent("GameController");
         boardcontroller = (BoardController)gameObject.AddComponent("BoardController");
         rowcontroller = (RowController)gameObject.AddComponent("RowController");
         savecontroller = (SaveController)gameObject.AddComponent("SaveController");
-
-        // Start the game
-        if (savecontroller.IsGameSaved())
-        {
-
-            gamecontroller.LoadGame();
-
-        }
-        else
-        {
-
-            gamecontroller.NewGame();
-
-        }
 
     }
 
@@ -113,6 +102,13 @@ public class GameManager : MonoBehaviour {
 
         }
         
+    }
+
+    public void PlaySound(int sound)
+    {
+
+        audio.PlayOneShot(sounds[sound]);
+
     }
 
 }

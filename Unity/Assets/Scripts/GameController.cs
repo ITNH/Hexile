@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
     int counter = 0;
     int hexelcolor = 0;
     int nexthexel = 0;
+    int gameovercount = 0;
 
     void Update()
     {
@@ -41,6 +42,16 @@ public class GameController : MonoBehaviour
         {
 
             case "stopped":
+
+
+
+                if (Input.GetButtonDown("Select"))
+                {
+
+                    Application.LoadLevel("MainMenu");
+
+                }
+
                 break;
 
             case "start":
@@ -70,6 +81,8 @@ public class GameController : MonoBehaviour
 
             case "linecheck":
 
+                score += hexelcontroller.softdrops;
+
                 Destroy(currenthexel);
                 currenthexel = null;
                 hexelcontroller = null;
@@ -87,13 +100,15 @@ public class GameController : MonoBehaviour
                 }
 
                 score += linescores[numrows] * (level + 1);
-                level = lines / 10;
                 lines += numrows;
+                level = lines / 10;
 
                 Debug.Log(score + " " + level + " " + lines);
 
                 if (numrows != 0)
                 {
+
+                    GameManager.gamemanager.PlaySound(0);
 
                     timer = 0;
                     counter = 0;
@@ -102,6 +117,8 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
+
+                    GameManager.gamemanager.PlaySound(1);
 
                     gamestate = "spawnhexel";
 
@@ -164,6 +181,8 @@ public class GameController : MonoBehaviour
 
             case "droplines":
 
+                GameManager.gamemanager.PlaySound(2);
+
                 GameManager.rowcontroller.DropRows(rows);
 
                 gamestate = "spawnhexel";
@@ -224,8 +243,7 @@ public class GameController : MonoBehaviour
 
             case "end":
 
-                if (Input.GetButtonDown("Select"))
-                    NewGame();
+                gamestate = "stopped";
 
                 break;
 
@@ -301,17 +319,22 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void SetHexel()
+    // Callback triggered by HexelController when the hexel sets
+    // Passed true if the hexel did not move, indicating a gameover
+    public void SetHexel(bool fullgrid)
     {
 
         gamestate = "linecheck";
 
-    }
+        if (fullgrid)
+        {
 
-    public void GameOver()
-    {
+            gameovercount++;
 
-        gamestate = "gameover";
+            if (gameovercount >= 2)
+                gamestate = "gameover";
+
+        }
 
     }
 

@@ -55,21 +55,6 @@ public class HexelController : MonoBehaviour
 
         }
 
-        // Check if we're overlapping when the hexel spawns, which triggers a game over
-        if (CheckPosition(xpos, ypos, rotation))
-        {
-
-            for (int i = 0; i < 4; i++)
-            {
-
-                Destroy(hexes[i]);
-
-            }
-
-            GameManager.gamecontroller.GameOver();
-
-        }
-
         // Put 'em on screen!
         SetHexCoords(xpos, ypos, rotation);
 
@@ -138,7 +123,8 @@ public class HexelController : MonoBehaviour
 
                 }
 
-                GameManager.gamecontroller.SetHexel();
+                // Notify GameController that we've set, telling them if we haven't moved
+                GameManager.gamecontroller.SetHexel(xpos == xstart && ypos == ystart);
 
             }
 
