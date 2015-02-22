@@ -23,6 +23,9 @@ public class GameController : MonoBehaviour
     // Reference to the currently active HexelController
     private HexelController hexelcontroller;
 
+    // Reference to the next hexel preview's GameObject
+    private GameObject hexelpreview;
+
     // RNG for spawning hexels
     private static System.Random random = new System.Random();
 
@@ -66,8 +69,12 @@ public class GameController : MonoBehaviour
 
                 hexelcolor = nexthexel;
                 nexthexel = random.Next(0, GameManager.hexelprefabs.Length);
+
                 currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
                     Vector3(0, 0), Quaternion.identity) as GameObject;
+
+                hexelpreview = Instantiate(GameManager.hexelpreviews[nexthexel], new
+                    Vector3(250, 65), Quaternion.identity) as GameObject;
 
                 hexelcontroller = currenthexel.GetComponent<HexelController>();
 
@@ -84,8 +91,10 @@ public class GameController : MonoBehaviour
                 score += hexelcontroller.softdrops;
 
                 Destroy(currenthexel);
+                Destroy(hexelpreview);
                 currenthexel = null;
                 hexelcontroller = null;
+                hexelpreview = null;
 
                 rows = GameManager.rowcontroller.CheckForRows();
 
@@ -278,13 +287,16 @@ public class GameController : MonoBehaviour
     public void LoadGame()
     {
 
+        // Retrieve the save data object
         GameSaveDataObject savedata = GameManager.savecontroller.LoadGame();
 
+        // Unpack the object
         gamestate = savedata.gamestate;
         score = savedata.score;
         level = savedata.level;
         rows = savedata.rows;
         hexelcolor = savedata.hexelcolor;
+        nexthexel = savedata.nexthexel;
         GameManager.boardcontroller.LoadGrid(savedata.grid);
 
         switch (gamestate)
@@ -294,6 +306,9 @@ public class GameController : MonoBehaviour
                 
                 currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
                     Vector3(0, 0), Quaternion.identity) as GameObject;
+
+                hexelpreview = Instantiate(GameManager.hexelpreviews[hexelcolor], new
+                    Vector3(250, 65), Quaternion.identity) as GameObject;
 
                 hexelcontroller = currenthexel.GetComponent<HexelController>();
                 
