@@ -1,14 +1,17 @@
 fileFormatVersion: 2
-guid: 4ab06559fc04df14abbde39fccc8122a
+guid: 5f9637630973e624290d0cf1699b19ef
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hexes_0
-    21300002: hexes_1
-    21300004: hexes_2
-    21300006: hexes_3
-    21300008: hexes_4
-    21300010: hexes_5
-    21300012: hexes_6
+    21300000: Numbers_0
+    21300002: Numbers_1
+    21300004: Numbers_2
+    21300006: Numbers_3
+    21300008: Numbers_4
+    21300010: Numbers_5
+    21300012: Numbers_6
+    21300014: Numbers_7
+    21300016: Numbers_8
+    21300018: Numbers_9
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -50,73 +53,103 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: hexes_0
+    - name: Numbers_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 18
-        height: 16
+        width: 5
+        height: 7
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hexes_1
+    - name: Numbers_1
       rect:
         serializedVersion: 2
-        x: 18
+        x: 5
         y: 0
-        width: 18
-        height: 16
+        width: 2
+        height: 7
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hexes_2
+    - name: Numbers_2
       rect:
         serializedVersion: 2
-        x: 36
+        x: 7
         y: 0
-        width: 18
-        height: 16
+        width: 5
+        height: 7
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hexes_3
+    - name: Numbers_3
       rect:
         serializedVersion: 2
-        x: 54
+        x: 12
         y: 0
-        width: 18
-        height: 16
+        width: 5
+        height: 7
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hexes_4
+    - name: Numbers_4
       rect:
         serializedVersion: 2
-        x: 72
+        x: 17
         y: 0
-        width: 18
-        height: 16
+        width: 5
+        height: 7
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hexes_5
+    - name: Numbers_5
       rect:
         serializedVersion: 2
-        x: 90
+        x: 22
         y: 0
-        width: 18
-        height: 16
+        width: 5
+        height: 7
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hexes_6
+    - name: Numbers_6
       rect:
         serializedVersion: 2
-        x: 108
+        x: 27
         y: 0
-        width: 18
-        height: 16
+        width: 5
+        height: 7
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 5
+        height: 7
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_8
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 0
+        width: 5
+        height: 7
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Numbers_9
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 0
+        width: 5
+        height: 7
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

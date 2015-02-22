@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour {
     public GameObject[] hexprefabcontainer;
     public GameObject[] hexelprefabcontainer;
     public AudioClip[] soundcontainer;
+    public GameObject[] numbercontainer;
 
     // Static references to object arrays, for easy referencing
     public static GameObject[] hexprefabs;
     public static GameObject[] hexelprefabs;
     public static AudioClip[] sounds;
+    public static GameObject[] numbers;
 
     // Current window width and height for restoring size after fullscreen
     private int width = 640;
@@ -64,6 +66,7 @@ public class GameManager : MonoBehaviour {
         hexprefabs = hexprefabcontainer;
         hexelprefabs = hexelprefabcontainer;
         sounds = soundcontainer;
+        numbers = numbercontainer;
 
         // Create controllers
         gamecontroller = (GameController)gameObject.AddComponent("GameController");
