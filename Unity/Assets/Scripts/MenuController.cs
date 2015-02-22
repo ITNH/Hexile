@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour {
         if (Input.GetButtonDown("Select"))
         {
 
-            GameManager.gamemanager.PlaySound(0);
+            GameManager.gamemanager.PlaySound(3);
 
             Application.LoadLevel("Game");
 
