@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameOverController : MonoBehaviour
+public class UIUpdater : MonoBehaviour
 {
 
     void Start(){

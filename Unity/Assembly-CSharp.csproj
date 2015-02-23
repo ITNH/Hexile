@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Buttons\BackButton.cs" />
+     <Compile Include="Assets\Scripts\Buttons\BackButtonPause.cs" />
      <Compile Include="Assets\Scripts\Buttons\ContinueButton.cs" />
      <Compile Include="Assets\Scripts\Buttons\HowToPlayButton.cs" />
      <Compile Include="Assets\Scripts\Buttons\MainMenuButton.cs" />
@@ -55,7 +56,6 @@
      <Compile Include="Assets\Scripts\Controllers\BoardController.cs" />
      <Compile Include="Assets\Scripts\Controllers\ContinueController.cs" />
      <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
-     <Compile Include="Assets\Scripts\Controllers\GameOverController.cs" />
      <Compile Include="Assets\Scripts\Controllers\HexelController.cs" />
      <Compile Include="Assets\Scripts\Controllers\MusicController.cs" />
      <Compile Include="Assets\Scripts\Controllers\RowController.cs" />
@@ -64,6 +64,7 @@
      <Compile Include="Assets\Scripts\Controllers\UIController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\ScreenFader.cs" />
+     <Compile Include="Assets\Scripts\UIUpdater.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

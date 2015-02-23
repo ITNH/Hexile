@@ -48,17 +48,23 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
+        if (Input.GetButtonDown("Back"))
+        {
+
+            GameManager.savecontroller.SaveGame(new GameSaveDataObject(
+                gamestate, score, level, lines, rows, hexelcolor, nexthexel,
+                GameManager.boardcontroller.GetGrid()));
+
+            gamestate = "stopped";
+
+            Application.LoadLevel("Pause");
+
+        }
+
         switch (gamestate)
         {
 
             case "stopped":
-
-                if (Input.GetButtonDown("Select"))
-                {
-
-                    Application.LoadLevel("MainMenu");
-
-                }
 
                 break;
 
