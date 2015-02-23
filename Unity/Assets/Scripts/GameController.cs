@@ -304,6 +304,8 @@ public class GameController : MonoBehaviour
 
             case "fill":
 
+                GameManager.soundcontroller.PlaySound(7);
+
                 rows[counter] = true;
 
                 counter++;
