@@ -50,7 +50,7 @@ public class SaveController : MonoBehaviour {
         else
         {
 
-            // If the file isn't there because derp, return an empty game
+            // If the file isn't there because derp, return an empty object
             return new GameSaveDataObject();
 
         }
@@ -155,24 +155,17 @@ public class GameSaveDataObject
     public bool[] rows { get; private set; }
     public int hexelcolor { get; private set; }
     public int nexthexel { get; private set; }
+    public int gameovercount { get; private set; }
+    public int previouslevel { get; private set; }
+    public int originalhighscore { get; private set; }
+    public bool newhighscore { get; private set; }
     public int[,] grid { get; private set; }
 
-    public GameSaveDataObject()
-    {
-
-        this.gamestate = "stopped";
-        this.score = 0;
-        this.level = 0;
-        this.lines = 0;
-        this.rows = new bool[15];
-        this.hexelcolor = 0;
-        this.nexthexel = 0;
-        this.grid = new int[15, 20];
-
-    }
+    public GameSaveDataObject() { }
 
     public GameSaveDataObject(string gamestate, int score, int level, int lines, bool[] rows,
-        int hexelcolor, int nexthexel, int[,] grid)
+        int hexelcolor, int nexthexel, int gameovercount, int previouslevel, int originalhighscore,
+        bool newhighscore, int[,] grid)
     {
 
         this.gamestate = gamestate;
@@ -182,6 +175,10 @@ public class GameSaveDataObject
         this.rows = rows;
         this.hexelcolor = hexelcolor;
         this.nexthexel = nexthexel;
+        this.gameovercount = gameovercount;
+        this.previouslevel = previouslevel;
+        this.originalhighscore = originalhighscore;
+        this.newhighscore = newhighscore;
         this.grid = grid;
 
     }

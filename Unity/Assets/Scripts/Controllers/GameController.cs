@@ -37,6 +37,9 @@ public class GameController : MonoBehaviour
     private int hexelcolor = 0;
     private int nexthexel = 0;
     private int gameovercount = 0;
+    private int previouslevel = 0;
+    private int originalhighscore = 0;
+    private bool newhighscore = false;
 
     void Awake()
     {
@@ -52,7 +55,8 @@ public class GameController : MonoBehaviour
         {
 
             GameManager.savecontroller.SaveGame(new GameSaveDataObject(
-                gamestate, score, level, lines, rows, hexelcolor, nexthexel,
+                gamestate, score, level, lines, rows, hexelcolor, nexthexel, gameovercount,
+                previouslevel, originalhighscore, newhighscore,
                 GameManager.boardcontroller.GetGrid()));
 
             gamestate = "stopped";
@@ -73,7 +77,9 @@ public class GameController : MonoBehaviour
                 // Retrieve the highscore data object
                 HighScoreDataObject highscoredata = GameManager.savecontroller.LoadHighScores();
 
-                highscore = highscoredata.highscore;
+                originalhighscore = highscoredata.highscore;
+
+                highscore = originalhighscore;
 
                 hexelcolor = random.Next(0, GameManager.hexelprefabs.Length);
 
@@ -103,6 +109,10 @@ public class GameController : MonoBehaviour
                 rows = savedata.rows;
                 hexelcolor = savedata.hexelcolor;
                 nexthexel = savedata.nexthexel;
+                gameovercount = savedata.gameovercount;
+                previouslevel = savedata.previouslevel;
+                originalhighscore = savedata.originalhighscore;
+                newhighscore = savedata.newhighscore;
                 GameManager.boardcontroller.LoadGrid(savedata.grid);
 
                 // Retrieve the highscore data object
@@ -170,6 +180,15 @@ public class GameController : MonoBehaviour
 
                 UIController.UpdateUI(highscore, score, lines, level, nexthexel);
 
+                if (score >= originalhighscore && !newhighscore)
+                {
+
+                    GameManager.soundcontroller.PlaySound(9);
+
+                    newhighscore = true;
+
+                }
+
                 gamestate = "running";
 
                 break;
@@ -198,9 +217,14 @@ public class GameController : MonoBehaviour
 
                 }
 
+                previouslevel = level;
+
                 score += linescores[numrows] * (level + 1);
                 lines += numrows;
                 level = lines / 10;
+
+                if (level > previouslevel)
+                    GameManager.soundcontroller.PlaySound(8);
 
                 if (score > highscore)
                 {
@@ -373,8 +397,9 @@ public class GameController : MonoBehaviour
         {
 
             GameManager.savecontroller.SaveGame(new GameSaveDataObject(
-                gamestate, score, level, lines, rows, hexelcolor, nexthexel,
-                GameManager.boardcontroller.GetGrid()));
+                 gamestate, score, level, lines, rows, hexelcolor, nexthexel, gameovercount,
+                 previouslevel, originalhighscore, newhighscore,
+                 GameManager.boardcontroller.GetGrid()));
 
         }
 
