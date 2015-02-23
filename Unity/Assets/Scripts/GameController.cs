@@ -343,6 +343,8 @@ public class GameController : MonoBehaviour
 
             case "end":
 
+                GameManager.savecontroller.DeleteSave();
+
                 gamestate = "stopped";
 
                 Application.LoadLevel("MainMenu");

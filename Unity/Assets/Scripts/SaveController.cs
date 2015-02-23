@@ -64,6 +64,26 @@ public class SaveController : MonoBehaviour {
 
     }
 
+    public bool DeleteSave()
+    {
+
+        if (File.Exists(Application.persistentDataPath + "/save.dat"))
+        {
+
+            File.Delete(Application.persistentDataPath + "/save.dat");
+
+            return true;
+
+        }
+        else
+        {
+
+            return false;
+
+        }
+
+    }
+
     // Saves the given data object to save.dat
     public void SaveHighScores(HighScoreDataObject highscoredataobject)
     {
