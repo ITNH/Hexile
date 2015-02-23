@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 
 // Singleton controller in charge of managing the game window, audio, and static references
 public class GameManager : MonoBehaviour {
@@ -98,14 +99,6 @@ public class GameManager : MonoBehaviour {
             width = Screen.width;
             height = Screen.height;
             Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
-
-        }
-        
-        // Exit the game if escape or backspace is pressed
-        if (Input.GetButton("Back"))
-        {
-
-            Application.Quit();
 
         }
         
