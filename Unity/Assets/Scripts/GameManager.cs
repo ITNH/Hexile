@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 // Singleton controller in charge of managing the game window, audio, and static references
 public class GameManager : MonoBehaviour {

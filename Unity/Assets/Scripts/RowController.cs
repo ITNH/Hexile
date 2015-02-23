@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 // Controller for detecting, manipulating, and removing rows of hexes
 public class RowController : MonoBehaviour

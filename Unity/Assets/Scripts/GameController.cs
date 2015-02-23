@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
 
 // Controller for managing in-game data and events
 public class GameController : MonoBehaviour
 {
 
     // Scoring variables, globally readable but only settable here
+    [HideInInspector]
+    public int highscore { get; private set; }
     [HideInInspector]
     public int score { get; private set; }
     [HideInInspector]
@@ -59,7 +59,16 @@ public class GameController : MonoBehaviour
 
             case "start":
 
+                // Retrieve the highscore data object
+                HighScoreDataObject highscoredata = GameManager.savecontroller.LoadHighScores();
+
+                highscore = highscoredata.highscore;
+
                 hexelcolor = random.Next(0, GameManager.hexelprefabs.Length);
+
+                score = 0;
+                level = 0;
+                lines = 0;
 
                 gamestate = "spawnhexel";
 
@@ -75,7 +84,7 @@ public class GameController : MonoBehaviour
 
                 hexelcontroller = currenthexel.GetComponent<HexelController>();
 
-                UIController.UpdateUI(0, score, lines, level, nexthexel);
+                UIController.UpdateUI(highscore, score, lines, level, nexthexel);
 
                 gamestate = "running";
 
@@ -109,7 +118,14 @@ public class GameController : MonoBehaviour
                 lines += numrows;
                 level = lines / 10;
 
-                Debug.Log(score + " " + level + " " + lines);
+                if (score > highscore)
+                {
+
+                    highscore = score;
+
+                    GameManager.savecontroller.SaveHighScores(new HighScoreDataObject(highscore));
+
+                }
 
                 if (numrows != 0)
                 {
@@ -296,6 +312,11 @@ public class GameController : MonoBehaviour
         nexthexel = savedata.nexthexel;
         GameManager.boardcontroller.LoadGrid(savedata.grid);
 
+        // Retrieve the highscore data object
+        HighScoreDataObject highscoredata = GameManager.savecontroller.LoadHighScores();
+
+        highscore = highscoredata.highscore;
+
         switch (gamestate)
         {
 
@@ -326,7 +347,7 @@ public class GameController : MonoBehaviour
 
         }
 
-        UIController.UpdateUI(0, score, lines, level, nexthexel);
+        UIController.UpdateUI(highscore, score, lines, level, nexthexel);
 
     }
 
@@ -346,50 +367,6 @@ public class GameController : MonoBehaviour
                 gamestate = "gameover";
 
         }
-
-    }
-
-}
-
-[Serializable]
-public class GameSaveDataObject
-{
-
-    public string gamestate { get; private set; }
-    public int score { get; private set; }
-    public int level { get; private set; }
-    public int lines { get; private set; }
-    public bool[] rows { get; private set; }
-    public int hexelcolor { get; private set; }
-    public int nexthexel { get; private set; }
-    public int[,] grid { get; private set; }
-
-    public GameSaveDataObject()
-    {
-
-        this.gamestate = "stopped";
-        this.score = 0;
-        this.level = 0;
-        this.lines = 0;
-        this.rows = new bool[15];
-        this.hexelcolor = 0;
-        this.nexthexel = 0;
-        this.grid = new int[15,20];
-
-    }
-
-    public GameSaveDataObject(string gamestate, int score, int level, int lines, bool[] rows,
-        int hexelcolor, int nexthexel, int[,] grid)
-    {
-
-        this.gamestate = gamestate;
-        this.score = score;
-        this.level = level;
-        this.lines = lines;
-        this.rows = rows;
-        this.hexelcolor = hexelcolor;
-        this.nexthexel = nexthexel;
-        this.grid = grid;
 
     }
 
