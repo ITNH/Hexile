@@ -50,7 +50,11 @@
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HexelController.cs" />
-     <Compile Include="Assets\Scripts\MenuController.cs" />
+     <Compile Include="Assets\Scripts\Main Menu\ContinueButton.cs" />
+     <Compile Include="Assets\Scripts\Main Menu\ContinueController.cs" />
+     <Compile Include="Assets\Scripts\Main Menu\HowToPlayButton.cs" />
+     <Compile Include="Assets\Scripts\Main Menu\NewGameButton.cs" />
+     <Compile Include="Assets\Scripts\Main Menu\QuitButton.cs" />
      <Compile Include="Assets\Scripts\MusicController.cs" />
      <Compile Include="Assets\Scripts\RowController.cs" />
      <Compile Include="Assets\Scripts\SaveController.cs" />

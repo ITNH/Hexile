@@ -30,13 +30,20 @@ public class GameController : MonoBehaviour
     private static System.Random random = new System.Random();
 
     // Variables for maintaining the state engine
-    private string gamestate = "stopped";
+    private string gamestate;
     private bool[] rows = new bool[15];
     private int timer = 0;
     private int counter = 0;
     private int hexelcolor = 0;
     private int nexthexel = 0;
     private int gameovercount = 0;
+
+    void Awake()
+    {
+
+        gamestate = "stopped";
+
+    }
 
     void Update()
     {
@@ -45,8 +52,6 @@ public class GameController : MonoBehaviour
         {
 
             case "stopped":
-
-
 
                 if (Input.GetButtonDown("Select"))
                 {
@@ -71,6 +76,79 @@ public class GameController : MonoBehaviour
                 lines = 0;
 
                 gamestate = "spawnhexel";
+
+                break;
+
+            case "load":
+
+                gamestate = "opensave";
+
+                break;
+
+            case "opensave":
+
+                // Retrieve the save data object
+                GameSaveDataObject savedata = GameManager.savecontroller.LoadGame();
+
+                // Unpack the object
+                gamestate = savedata.gamestate;
+                score = savedata.score;
+                level = savedata.level;
+                rows = savedata.rows;
+                hexelcolor = savedata.hexelcolor;
+                nexthexel = savedata.nexthexel;
+                GameManager.boardcontroller.LoadGrid(savedata.grid);
+
+                // Retrieve the highscore data object
+                HighScoreDataObject loadhighscoredata = GameManager.savecontroller.LoadHighScores();
+
+                highscore = loadhighscoredata.highscore;
+
+                switch (gamestate)
+                {
+
+                    case "running":
+
+                        currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
+                            Vector3(0, 0), Quaternion.identity) as GameObject;
+
+                        hexelcontroller = currenthexel.GetComponent<HexelController>();
+
+                        break;
+
+                    case "lineblink":
+
+                        timer = 0;
+                        counter = 0;
+
+                        break;
+
+                    case "waitfordrop":
+
+                        timer = 0;
+
+                        break;
+
+                    case "fill":
+
+                        counter = 0;
+                        rows = new bool[20];
+
+                        break;
+
+                    case "wipe":
+
+                        rows = new bool[20];
+                        counter = 0;
+
+                        break;
+
+                    default:
+                        break;
+
+                }
+
+                UIController.UpdateUI(highscore, score, lines, level, nexthexel);
 
                 break;
 
@@ -267,6 +345,8 @@ public class GameController : MonoBehaviour
 
                 gamestate = "stopped";
 
+                Application.LoadLevel("MainMenu");
+
                 break;
 
             default:
@@ -279,7 +359,7 @@ public class GameController : MonoBehaviour
     void OnDisable()
     {
 
-        if (gamestate == "running")
+        if (gamestate != "stopped")
         {
 
             GameManager.savecontroller.SaveGame(new GameSaveDataObject(
@@ -300,54 +380,7 @@ public class GameController : MonoBehaviour
     public void LoadGame()
     {
 
-        // Retrieve the save data object
-        GameSaveDataObject savedata = GameManager.savecontroller.LoadGame();
-
-        // Unpack the object
-        gamestate = savedata.gamestate;
-        score = savedata.score;
-        level = savedata.level;
-        rows = savedata.rows;
-        hexelcolor = savedata.hexelcolor;
-        nexthexel = savedata.nexthexel;
-        GameManager.boardcontroller.LoadGrid(savedata.grid);
-
-        // Retrieve the highscore data object
-        HighScoreDataObject highscoredata = GameManager.savecontroller.LoadHighScores();
-
-        highscore = highscoredata.highscore;
-
-        switch (gamestate)
-        {
-
-            case "running":
-                
-                currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
-                    Vector3(0, 0), Quaternion.identity) as GameObject;
-
-                hexelcontroller = currenthexel.GetComponent<HexelController>();
-                
-                break;
-
-            case "lineblink":
-
-                timer = 0;
-                counter = 0;
-
-                break;
-
-            case "waitfordrop":
-
-                timer = 0;
-
-                break;
-
-            default:
-                break;
-
-        }
-
-        UIController.UpdateUI(highscore, score, lines, level, nexthexel);
+        gamestate = "load";
 
     }
 
