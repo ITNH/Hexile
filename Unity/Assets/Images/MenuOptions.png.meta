@@ -12,6 +12,10 @@ TextureImporter:
     21300014: Quit
     21300016: BackOutline
     21300018: Back
+    21300020: MainMenuOutline
+    21300022: MainMenu
+    21300024: GameOverOutline
+    21300026: GameOver
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -57,7 +61,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 76
+        y: 114
         width: 92
         height: 18
       alignment: 6
@@ -67,7 +71,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 93
-        y: 80
+        y: 118
         width: 84
         height: 10
       alignment: 6
@@ -77,7 +81,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 57
+        y: 95
         width: 102
         height: 18
       alignment: 6
@@ -87,7 +91,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 103
-        y: 61
+        y: 99
         width: 94
         height: 10
       alignment: 6
@@ -97,7 +101,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 38
+        y: 76
         width: 116
         height: 18
       alignment: 6
@@ -107,7 +111,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 117
-        y: 42
+        y: 80
         width: 108
         height: 10
       alignment: 6
@@ -117,7 +121,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 19
+        y: 57
         width: 54
         height: 18
       alignment: 6
@@ -127,7 +131,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 55
-        y: 22
+        y: 60
         width: 46
         height: 11
       alignment: 6
@@ -137,7 +141,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 38
         width: 54
         height: 18
       alignment: 6
@@ -147,8 +151,48 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 55
-        y: 4
+        y: 42
         width: 46
+        height: 10
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MainMenuOutline
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 19
+        width: 104
+        height: 18
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: MainMenu
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 23
+        width: 96
+        height: 10
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: GameOverOutline
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 104
+        height: 18
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: GameOver
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 4
+        width: 96
         height: 10
       alignment: 6
       pivot: {x: 0, y: 0}

@@ -349,7 +349,7 @@ public class GameController : MonoBehaviour
 
                 gamestate = "stopped";
 
-                Application.LoadLevel("MainMenu");
+                Application.LoadLevel("GameOver");
 
                 break;
 

@@ -46,21 +46,23 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\BoardController.cs" />
      <Compile Include="Assets\Scripts\Buttons\BackButton.cs" />
      <Compile Include="Assets\Scripts\Buttons\ContinueButton.cs" />
-     <Compile Include="Assets\Scripts\Buttons\ContinueController.cs" />
      <Compile Include="Assets\Scripts\Buttons\HowToPlayButton.cs" />
+     <Compile Include="Assets\Scripts\Buttons\MainMenuButton.cs" />
      <Compile Include="Assets\Scripts\Buttons\NewGameButton.cs" />
      <Compile Include="Assets\Scripts\Buttons\QuitButton.cs" />
-     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\BoardController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\ContinueController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\GameOverController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\HexelController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\MusicController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\RowController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\SaveController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\SoundController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\UIController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\HexelController.cs" />
-     <Compile Include="Assets\Scripts\MusicController.cs" />
-     <Compile Include="Assets\Scripts\RowController.cs" />
-     <Compile Include="Assets\Scripts\SaveController.cs" />
-     <Compile Include="Assets\Scripts\SoundController.cs" />
-     <Compile Include="Assets\Scripts\UIController.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>

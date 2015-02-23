@@ -11,6 +11,23 @@ public class UIController : MonoBehaviour{
     private static List<GameObject> leveldigits = new List<GameObject>();
     private static GameObject hexelpreview = new GameObject();
 
+    public static void UpdateUI(int highscore, int score, int lines, int level)
+    {
+
+        highscoredigits = DrawNumber(273, 207, highscore, highscoredigits);
+
+        scoredigits = DrawNumber(273, 185, score, scoredigits);
+
+        linesdigits = DrawNumber(273, 163, lines, linesdigits);
+
+        leveldigits = DrawNumber(238, 123, level, leveldigits);
+
+        Destroy(hexelpreview);
+
+        hexelpreview = null;
+
+    }
+
     public static void UpdateUI(int highscore, int score, int lines, int level, int nexthexel)
     {
 
@@ -29,7 +46,7 @@ public class UIController : MonoBehaviour{
 
     }
 
-    public static List<GameObject> DrawNumber(int xpos, int ypos, int number,
+    private static List<GameObject> DrawNumber(int xpos, int ypos, int number,
         List<GameObject> digitcontainer)
     {
 
