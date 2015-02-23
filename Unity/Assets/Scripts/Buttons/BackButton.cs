@@ -2,11 +2,12 @@
 
 public class BackButton : MonoBehaviour {
 
-    /*
     void OnMouseEnter()
     {
 
         gameObject.renderer.enabled = true;
+
+        GameManager.soundcontroller.PlaySound(4);
 
     }
 
@@ -16,7 +17,6 @@ public class BackButton : MonoBehaviour {
         gameObject.renderer.enabled = false;
 
     }
-    */
 
     void OnMouseDown()
     {

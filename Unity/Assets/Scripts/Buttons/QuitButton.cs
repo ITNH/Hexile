@@ -3,11 +3,12 @@
 public class QuitButton : MonoBehaviour
 {
 
-    /*
     void OnMouseEnter()
     {
 
         gameObject.renderer.enabled = true;
+
+        GameManager.soundcontroller.PlaySound(4);
 
     }
 
@@ -17,7 +18,6 @@ public class QuitButton : MonoBehaviour
         gameObject.renderer.enabled = false;
 
     }
-    */
 
     void OnMouseDown()
     {

@@ -3,7 +3,6 @@
 public class ContinueButton : MonoBehaviour
 {
 
-    /*
     void OnMouseEnter()
     {
 
@@ -11,6 +10,8 @@ public class ContinueButton : MonoBehaviour
         {
 
             gameObject.renderer.enabled = true;
+
+            GameManager.soundcontroller.PlaySound(4);
 
         }
 
@@ -22,7 +23,6 @@ public class ContinueButton : MonoBehaviour
         gameObject.renderer.enabled = false;
 
     }
-    */
 
     void OnMouseDown()
     {
