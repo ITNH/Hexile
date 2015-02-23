@@ -6,7 +6,7 @@ using System.Collections;
 public class GameController : MonoBehaviour
 {
 
-    // Scoring variables, globally readable but only settable internally
+    // Scoring variables, globally readable but only settable here
     [HideInInspector]
     public int score { get; private set; }
     [HideInInspector]
@@ -31,12 +31,12 @@ public class GameController : MonoBehaviour
 
     // Variables for maintaining the state engine
     private string gamestate = "stopped";
-    bool[] rows = new bool[15];
-    int timer = 0;
-    int counter = 0;
-    int hexelcolor = 0;
-    int nexthexel = 0;
-    int gameovercount = 0;
+    private bool[] rows = new bool[15];
+    private int timer = 0;
+    private int counter = 0;
+    private int hexelcolor = 0;
+    private int nexthexel = 0;
+    private int gameovercount = 0;
 
     void Update()
     {
@@ -73,10 +73,9 @@ public class GameController : MonoBehaviour
                 currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
                     Vector3(0, 0), Quaternion.identity) as GameObject;
 
-                hexelpreview = Instantiate(GameManager.hexelpreviews[nexthexel], new
-                    Vector3(250, 65), Quaternion.identity) as GameObject;
-
                 hexelcontroller = currenthexel.GetComponent<HexelController>();
+
+                UIController.UpdateUI(0, score, lines, level, nexthexel);
 
                 gamestate = "running";
 
@@ -91,10 +90,8 @@ public class GameController : MonoBehaviour
                 score += hexelcontroller.softdrops;
 
                 Destroy(currenthexel);
-                Destroy(hexelpreview);
                 currenthexel = null;
                 hexelcontroller = null;
-                hexelpreview = null;
 
                 rows = GameManager.rowcontroller.CheckForRows();
 
@@ -307,9 +304,6 @@ public class GameController : MonoBehaviour
                 currenthexel = Instantiate(GameManager.hexelprefabs[hexelcolor], new
                     Vector3(0, 0), Quaternion.identity) as GameObject;
 
-                hexelpreview = Instantiate(GameManager.hexelpreviews[hexelcolor], new
-                    Vector3(250, 65), Quaternion.identity) as GameObject;
-
                 hexelcontroller = currenthexel.GetComponent<HexelController>();
                 
                 break;
@@ -331,6 +325,8 @@ public class GameController : MonoBehaviour
                 break;
 
         }
+
+        UIController.UpdateUI(0, score, lines, level, nexthexel);
 
     }
 
