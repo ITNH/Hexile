@@ -22,7 +22,7 @@ public class QuitButton : MonoBehaviour
     void OnMouseDown()
     {
 
-        GameManager.soundcontroller.PlaySound(3);
+        GameManager.soundcontroller.PlaySound(6);
 
         Application.Quit();
 
