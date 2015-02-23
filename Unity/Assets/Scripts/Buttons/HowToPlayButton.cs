@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-public class NewGameButton : MonoBehaviour {
+public class HowToPlayButton : MonoBehaviour
+{
 
+    /*
     void OnMouseEnter()
     {
 
@@ -15,13 +17,14 @@ public class NewGameButton : MonoBehaviour {
         gameObject.renderer.enabled = false;
 
     }
+    */
 
     void OnMouseDown()
     {
 
-        Application.LoadLevel("Game");
+        GameManager.soundcontroller.PlaySound(3);
 
-        GameManager.gamecontroller.NewGame();
+        Application.LoadLevel("HowToPlay");
 
     }
 

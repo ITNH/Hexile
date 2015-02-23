@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-public class ContinueButton : MonoBehaviour {
+public class ContinueButton : MonoBehaviour
+{
 
+    /*
     void OnMouseEnter()
     {
 
@@ -20,9 +22,12 @@ public class ContinueButton : MonoBehaviour {
         gameObject.renderer.enabled = false;
 
     }
+    */
 
     void OnMouseDown()
     {
+
+        GameManager.soundcontroller.PlaySound(3);
 
         if (GameManager.savecontroller.IsGameSaved())
         {

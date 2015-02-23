@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
     public static BoardController boardcontroller;
     public static RowController rowcontroller;
     public static SaveController savecontroller;
+    public static SoundController soundcontroller;
 
     // Static self-reference for singleton tracking and audio access
     public static GameManager gamemanager { get; private set; }
@@ -71,10 +72,11 @@ public class GameManager : MonoBehaviour {
         hexelpreviews = hexelpreviewcontainer;
 
         // Create controllers
-        gamecontroller = (GameController)gameObject.AddComponent("GameController");
-        boardcontroller = (BoardController)gameObject.AddComponent("BoardController");
-        rowcontroller = (RowController)gameObject.AddComponent("RowController");
-        savecontroller = (SaveController)gameObject.AddComponent("SaveController");
+        gamecontroller = (GameController)gameObject.AddComponent<GameController>();
+        boardcontroller = (BoardController)gameObject.AddComponent<BoardController>();
+        rowcontroller = (RowController)gameObject.AddComponent<RowController>();
+        savecontroller = (SaveController)gameObject.AddComponent<SaveController>();
+        soundcontroller = (SoundController)gameObject.AddComponent<SoundController>();
 
     }
 
@@ -107,13 +109,6 @@ public class GameManager : MonoBehaviour {
 
         }
         
-    }
-
-    public void PlaySound(int sound)
-    {
-
-        audio.PlayOneShot(sounds[sound]);
-
     }
 
 }

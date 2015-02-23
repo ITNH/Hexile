@@ -208,7 +208,7 @@ public class GameController : MonoBehaviour
                 if (numrows != 0)
                 {
 
-                    GameManager.gamemanager.PlaySound(0);
+                    GameManager.soundcontroller.PlaySound(0);
 
                     timer = 0;
                     counter = 0;
@@ -218,7 +218,7 @@ public class GameController : MonoBehaviour
                 else
                 {
 
-                    GameManager.gamemanager.PlaySound(1);
+                    GameManager.soundcontroller.PlaySound(1);
 
                     gamestate = "spawnhexel";
 
@@ -281,7 +281,7 @@ public class GameController : MonoBehaviour
 
             case "droplines":
 
-                GameManager.gamemanager.PlaySound(2);
+                GameManager.soundcontroller.PlaySound(2);
 
                 GameManager.rowcontroller.DropRows(rows);
 

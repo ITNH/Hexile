@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-public class HowToPlayButton : MonoBehaviour {
+public class QuitButton : MonoBehaviour
+{
 
+    /*
     void OnMouseEnter()
     {
 
@@ -13,6 +15,16 @@ public class HowToPlayButton : MonoBehaviour {
     {
 
         gameObject.renderer.enabled = false;
+
+    }
+    */
+
+    void OnMouseDown()
+    {
+
+        GameManager.soundcontroller.PlaySound(3);
+
+        Application.Quit();
 
     }
 
