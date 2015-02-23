@@ -179,6 +179,8 @@ public class HexelController : MonoBehaviour
 
                 rotation = newrotation;
 
+                GameManager.soundcontroller.PlaySound(5);
+
             }
 
         }
@@ -199,6 +201,8 @@ public class HexelController : MonoBehaviour
                 SetHexCoords(xpos, ypos, newrotation);
 
                 rotation = newrotation;
+
+                GameManager.soundcontroller.PlaySound(5);
 
             }
 
