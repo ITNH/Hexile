@@ -5,7 +5,7 @@ public class SoundController : MonoBehaviour {
     public void PlaySound(int sound)
     {
 
-        audio.PlayOneShot(GameManager.sounds[sound]);
+        GetComponent<AudioSource>().PlayOneShot(GameManager.sounds[sound]);
 
     }
 

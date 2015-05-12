@@ -5,7 +5,7 @@ public class BackButton : MonoBehaviour {
     void OnMouseEnter()
     {
 
-        gameObject.renderer.enabled = true;
+        gameObject.GetComponent<Renderer>().enabled = true;
 
         GameManager.soundcontroller.PlaySound(4);
 
@@ -14,7 +14,7 @@ public class BackButton : MonoBehaviour {
     void OnMouseExit()
     {
 
-        gameObject.renderer.enabled = false;
+        gameObject.GetComponent<Renderer>().enabled = false;
 
     }
 

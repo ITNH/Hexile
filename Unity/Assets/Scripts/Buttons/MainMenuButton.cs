@@ -6,7 +6,7 @@ public class MainMenuButton : MonoBehaviour
     void OnMouseEnter()
     {
 
-        gameObject.renderer.enabled = true;
+        gameObject.GetComponent<Renderer>().enabled = true;
 
         GameManager.soundcontroller.PlaySound(4);
 
@@ -15,7 +15,7 @@ public class MainMenuButton : MonoBehaviour
     void OnMouseExit()
     {
 
-        gameObject.renderer.enabled = false;
+        gameObject.GetComponent<Renderer>().enabled = false;
 
     }
 

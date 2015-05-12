@@ -9,7 +9,7 @@ public class ContinueButton : MonoBehaviour
         if (GameManager.savecontroller.IsGameSaved())
         {
 
-            gameObject.renderer.enabled = true;
+            gameObject.GetComponent<Renderer>().enabled = true;
 
             GameManager.soundcontroller.PlaySound(4);
 
@@ -20,7 +20,7 @@ public class ContinueButton : MonoBehaviour
     void OnMouseExit()
     {
 
-        gameObject.renderer.enabled = false;
+        gameObject.GetComponent<Renderer>().enabled = false;
 
     }
 

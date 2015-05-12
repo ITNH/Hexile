@@ -139,7 +139,7 @@ public class BoardController : MonoBehaviour
         else
         {
 
-            hexobjects[xpos, ypos].renderer.enabled = false;
+            hexobjects[xpos, ypos].GetComponent<Renderer>().enabled = false;
 
             return true;
 
@@ -159,7 +159,7 @@ public class BoardController : MonoBehaviour
         else
         {
 
-            hexobjects[xpos, ypos].renderer.enabled = true;
+            hexobjects[xpos, ypos].GetComponent<Renderer>().enabled = true;
 
             return true;
 

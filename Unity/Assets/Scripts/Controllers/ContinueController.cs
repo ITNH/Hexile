@@ -8,7 +8,7 @@ public class ContinueController : MonoBehaviour {
         if (GameManager.savecontroller.IsGameSaved())
         {
 
-            gameObject.renderer.enabled = true;
+            gameObject.GetComponent<Renderer>().enabled = true;
 
         }
 
